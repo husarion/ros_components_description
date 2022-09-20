@@ -5,7 +5,8 @@
                        use_gpu:=false
                        tf_prefix:=None
                        topic:=camera/depth/points
-                       frame_id:=depth">
+                       frame_id:=depth
+                       simulation_engine:=gazebo-classic">
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="tf_prefix_ext" value="" />
@@ -17,7 +18,7 @@
     <link name="${tf_prefix_ext}orbbec_astra_link">
       <visual>
         <geometry>
-            <mesh filename="file://$(find components_description)/meshes/orbbec_astra.stl" scale="0.001 0.001 0.001" />
+            <mesh filename="file://$(find ros_components_description)/meshes/orbbec_astra.stl" scale="0.001 0.001 0.001" />
         </geometry>
         <origin xyz="-0.01 0.0 0.025" rpy="${pi/2} 0.0 ${pi/2}"/>
         <material name="DarkGrey"/>

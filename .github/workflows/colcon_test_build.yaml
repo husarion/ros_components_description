@@ -1,0 +1,49 @@
+name: ROS2 test build
+
+on:
+  push:
+    branches:
+      - 'ros2'
+  
+jobs:
+  colcon-test-build-ubuntu-20-04:
+    matrix:
+      build-type: [ignition-gazebo, gazebo-classic]
+      ros-distro: [foxy, galactic]
+
+    env:
+      GAZEBO_VERSION: ${{ matrix.build-type }}
+
+    runs-on: ubuntu-20.04
+
+    name: ${{ matrix.ros-distro }}
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros-distro }}
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: ros_components_description
+          target-ros2-distro: ${{ matrix.ros-distro }}
+          vcs-repo-file-url: ${PWD}/components.repos
+  
+  colcon-test-build-ubuntu-22-04:
+    matrix:
+      build-type: [ignition-gazebo, gazebo-classic]
+      ros-distro: [humble]
+
+    env:
+      GAZEBO_VERSION: ${{ matrix.build-type }}
+
+    runs-on: ubuntu-22.04
+
+    name: ${{ matrix.ros-distro }}
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros-distro }}
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: ros_components_description
+          target-ros2-distro: ${{ matrix.ros-distro }}
+          vcs-repo-file-url: ${PWD}/components.repos

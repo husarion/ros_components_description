@@ -5,7 +5,8 @@
                        use_gpu:=false
                        tf_prefix:=None
                        topic:=scan
-                       frame_id:=velodyne">
+                       frame_id:=velodyne
+                       simulation_engine:=gazebo-classic">
 
     <xacro:if value="${use_gpu}">
       <xacro:property name="ray_type" value="gpu_ray" />
@@ -24,7 +25,7 @@
     <link name="${tf_prefix_ext}velodyne_puck_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find components_description)/meshes/velodyne_puck.stl" scale="0.025035 0.025035 0.025035" />
+          <mesh filename="file://$(find ros_components_description)/meshes/velodyne_puck.stl" scale="0.025035 0.025035 0.025035" />
         </geometry>
         <origin xyz="0.0 0.0 0.0" rpy="${pi/2.0} 0.0 ${pi}"/>
         <material name="DarkGrey"/>
