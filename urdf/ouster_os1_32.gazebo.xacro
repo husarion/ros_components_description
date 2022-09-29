@@ -65,7 +65,7 @@
     </gazebo>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
-      <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_puck_sensor">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}ouster_os1_32_sensor">
         <visualize>false</visualize>
         <ray>
           <scan>

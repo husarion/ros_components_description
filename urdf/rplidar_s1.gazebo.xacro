@@ -65,7 +65,7 @@
     </gazebo>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
-      <sensor type="${ray_type}" name="rplidar_s1_sensor">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_s1_sensor">
         <visualize>false</visualize>
         <ray>
           <scan>
