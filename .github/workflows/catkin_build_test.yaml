@@ -1,0 +1,34 @@
+
+name: ROS1 test build
+
+on:
+  push:
+    branches:
+      - 'ros1-devel'
+  
+jobs:
+  catkin-test-build-ubuntu-18-04:
+    strategy:
+      matrix:
+        ros-distro: [melodic]
+
+    runs-on: ubuntu-18.04
+
+    name: ${{ matrix.ros-distro }}-18-04
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros-distro }}
+  
+  catkin-test-build-ubuntu-20-04:
+    strategy:
+      matrix:
+        ros-distro: [noetic]
+
+    runs-on: ubuntu-20.04
+
+    name: ${{ matrix.ros-distro }}-20-04
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: ${{ matrix.ros-distro }}
