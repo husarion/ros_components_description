@@ -4,7 +4,7 @@ name: ROS1 test build
 on:
   push:
     branches:
-      - 'ros1-devel'
+      - 'ros1'
   
 jobs:
   catkin-test-build-ubuntu-18-04:
