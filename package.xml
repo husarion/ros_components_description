@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>ros_components_description</name>
   <version>0.1.0</version>
   <description>URDF descriptions of components offered with Husarion robots</description>
 
   <maintainer email="support@husarion.com">Husarion</maintainer>
   <maintainer email="krzysztof.wojciechowski@husarion.com">Krzysztof Wojciechowski</maintainer>
+  <maintainer email="pawel.kowalski@husarion.com">Pawel Kowalski</maintainer>
   <license>Apache License 2.0</license>
 
   <url type="website">https://husarion.com/</url>
@@ -14,7 +15,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>xacro</exec_depend>
 

@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="rplidar_s1" params="xyz rpy use_gpu:=false prefix:=front topic:=laser/scan">
+  <xacro:macro name="rplidar_s1"
+               params="parent_link xyz rpy
+                       use_gpu:=false
+                       tf_prefix:=None
+                       topic:=rp_scan
+                       frame_id:=rp_laser
+                       simulation_engine:=gazebo-classic">
+
     <xacro:if value="${use_gpu}">
       <xacro:property name="ray_type" value="gpu_ray" />
       <xacro:property name="plugin_file_name" value="libgazebo_ros_gpu_laser.so" />
@@ -10,20 +17,27 @@
       <xacro:property name="plugin_file_name" value="libgazebo_ros_laser.so" />
     </xacro:unless>
 
-    <link name="${prefix}_rplidar_s1_link">
+    <xacro:if value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
+    </xacro:unless>
+
+    <link name="${tf_prefix_ext}rplidar_s1_link">
       <visual>
         <geometry>
-          <mesh filename="package://ros_components_description/meshes/rplidar_s1.stl" scale="0.0001 0.0001 0.0001" />
+          <mesh filename="file://$(find ros_components_description)/meshes/rplidar_s1.stl" scale="0.0001 0.0001 0.0001" />
         </geometry>
-        <origin xyz="0 0 ${0.051/2}" rpy="0 0 -${pi/2}"/>
+        <origin xyz="0.0 0.0 ${0.051/2.0}" rpy="0 0 -${pi/2.0}"/>
         <material name="DarkGrey"/>
       </visual>
 
       <collision>
         <geometry>
-          <cylinder radius="${0.0555/2}" length="0.051" />
+          <cylinder radius="${0.0555/2.0}" length="0.051" />
         </geometry>
-        <origin xyz="0 0 ${0.051/2}" rpy="0 0 0"/>
+        <origin xyz="0.0 0.0 ${0.051/2.0}" rpy="0.0 0.0 0.0"/>
       </collision>
 
       <inertial>
@@ -32,27 +46,29 @@
       </inertial>
     </link>
 
-    <link name="${prefix}_rplidar_s1_laser_link"></link>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
+    
 
-    <joint name="body_link_to_${prefix}_rplidar_s1_link_joint" type="fixed">
+    <joint name="${parent_link}_to_${tf_prefix_ext}rplidar_s1_link_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="body_link" />
-      <child link="${prefix}_rplidar_s1_link" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}rplidar_s1_link" />
     </joint>
 
-    <joint name="${prefix}_rplidar_s1_laser_link_joint" type="fixed">
-      <origin xyz="0 0 0.04" rpy="0 0 0" />
-      <parent link="${prefix}_rplidar_s1_link" />
-      <child link="${prefix}_rplidar_s1_laser_link" />
+    <joint name="${tf_prefix_ext}${frame_id}_joint" type="fixed">
+      <origin xyz="0 0 0.04" rpy="0.0 0.0 0.0" />
+      <parent link="${tf_prefix_ext}rplidar_s1_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
 
-    <gazebo reference="${prefix}_rplidar_s1_link">
+    <gazebo reference="${tf_prefix_ext}rplidar_s1_link">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 
-    <gazebo reference="${prefix}_rplidar_s1_laser_link">
-      <sensor type="${ray_type}" name="${prefix}_rplidar_s1_sensor">
+
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_s1_sensor">
         <pose>0 0 0.04 0 0 0</pose>
         <visualize>false</visualize>
         <update_rate>10</update_rate>
@@ -76,9 +92,9 @@
             <stddev>0.001</stddev>
           </noise>
         </ray>
-        <plugin name="gazebo_ros_head_rplidar_controller" filename="${plugin_file_name}">
+        <plugin name="${ray_type}" filename="${plugin_file_name}">
           <topicName>${topic}</topicName>
-          <frameName>${prefix}_rplidar_s1_laser_link</frameName>
+          <frameName>${tf_prefix_ext}${frame_id}</frameName>
         </plugin>
       </sensor>
     </gazebo> 

@@ -1,21 +1,41 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="velodyne_puck" params="xyz rpy use_gpu:=false prefix:=front topic:=laser/scan">
+  <xacro:macro name="velodyne_puck"
+               params="parent_link xyz rpy
+                       use_gpu:=false
+                       tf_prefix:=None
+                       topic:=scan
+                       frame_id:=velodyne
+                       simulation_engine:=gazebo-classic">
 
-    <link name="${prefix}_velodyne_puck_link">
+    <xacro:if value="${use_gpu}">
+      <xacro:property name="ray_type" value="gpu_ray" />
+    </xacro:if>
+    <xacro:unless value="${use_gpu}">
+      <xacro:property name="ray_type" value="ray" />
+    </xacro:unless>
+
+    <xacro:if value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
+    </xacro:unless>
+
+    <link name="${tf_prefix_ext}velodyne_puck_link">
       <visual>
         <geometry>
-          <mesh filename="package://ros_components_description/meshes/velodyne_puck.stl" scale="0.025035 0.025035 0.025035" />
+          <mesh filename="file://$(find ros_components_description)/meshes/velodyne_puck.stl" scale="0.025035 0.025035 0.025035" />
         </geometry>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
+        <origin xyz="0.0 0.0 0.0" rpy="${pi/2.0} 0.0 ${pi}"/>
         <material name="DarkGrey"/>
       </visual>
 
       <collision>
         <geometry>
-          <cylinder radius="${0.090/2}" length="0.0717" />
+          <cylinder radius="${0.090/2.0}" length="0.0717" />
         </geometry>
-        <origin xyz="0 0 ${0.0717/2}" rpy="0 0 0"/>
+        <origin xyz="0.0 0.0 ${0.0717/2.0}" rpy="0.0 0.0 0.0"/>
       </collision>
 
       <inertial>
@@ -24,26 +44,26 @@
       </inertial>
     </link>
 
-    <link name="${prefix}_velodyne_puck_laser_link"></link>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
-    <joint name="body_link_to_${prefix}_velodyne_puck_link_joint" type="fixed">
+    <joint name="${parent_link}_to_${tf_prefix_ext}velodyne_puck_link_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="body_link" />
-      <child link="${prefix}_velodyne_puck_link" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}velodyne_puck_link" />
     </joint>
 
-    <joint name="${prefix}_velodyne_puck_laser_link_joint" type="fixed">
-      <origin xyz="0 0 0.0378" rpy="0 0 0" />
-      <parent link="${prefix}_velodyne_puck_link" />
-      <child link="${prefix}_velodyne_puck_laser_link" />
+    <joint name="${tf_prefix_ext}velodyne_puck_link_joint_to_${tf_prefix_ext}${frame_id}_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0378" rpy="0.0 0.0 0.0" />
+      <parent link="${tf_prefix_ext}velodyne_puck_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <gazebo reference="${prefix}_velodyne_puck_link">
+    <gazebo reference="${tf_prefix_ext}velodyne_puck_link">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 
-    <gazebo reference="${prefix}_velodyne_puck_laser_link">
-      <sensor type="ray" name="${prefix}_velodyne_puck_sensor">
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="ray" name="${tf_prefix_ext}velodyne_puck_sensor">
         <pose>0 0 0.0378 0 0 0</pose>
         <visualize>false</visualize>
         <update_rate>10</update_rate>
@@ -63,7 +83,7 @@
             </vertical>
           </scan>
           <range>
-            <min>${0.051+0.01}</min>
+            <min>0.061</min>
             <max>100.0</max>
             <resolution>0.005</resolution>
           </range>
@@ -75,7 +95,7 @@
         </ray>
         <plugin name="gazebo_ros_block_laser_controller" filename="libgazebo_ros_block_laser.so">
           <topicName>${topic}</topicName>
-          <frameName>${prefix}_velodyne_puck_laser_link</frameName>
+          <frameName>${tf_prefix_ext}${frame_id}</frameName>
           <gaussianNoise>0.0008</gaussianNoise>
           <updateRate>10</updateRate>
         </plugin>

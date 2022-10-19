@@ -1,12 +1,26 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="orbbec_astra" params="xyz rpy prefix:=front">
-    <link name="${prefix}_orbbec_astra_link">
+  <xacro:macro name="orbbec_astra"
+               params="parent_link xyz rpy
+                       use_gpu:=false
+                       tf_prefix:=None
+                       topic:=camera/depth/points
+                       frame_id:=depth
+                       simulation_engine:=gazebo-classic">
+
+    <xacro:if value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
+    </xacro:unless>
+
+    <link name="${tf_prefix_ext}orbbec_astra_link">
       <visual>
         <geometry>
-            <mesh filename="package://ros_components_description/meshes/orbbec_astra.stl" scale="0.001 0.001 0.001" />
+            <mesh filename="file://$(find ros_components_description)/meshes/orbbec_astra.stl" scale="0.001 0.001 0.001" />
         </geometry>
-        <origin xyz="-0.01 0 0.025" rpy="${pi/2} 0 ${pi/2}"/>
+        <origin xyz="-0.01 0.0 0.025" rpy="${pi/2} 0.0 ${pi/2}"/>
         <material name="DarkGrey"/>
       </visual>
 
@@ -14,7 +28,7 @@
         <geometry>
           <box size="0.165 0.04 0.05" />
         </geometry>
-        <origin xyz="-0.01 0 0.025" rpy="0 0 ${pi/2}"/>
+        <origin xyz="-0.01 0.0 0.025" rpy="0.0 0.0 ${pi/2}"/>
       </collision>
 
       <inertial>
@@ -23,26 +37,33 @@
       </inertial>
     </link>
 
-    <link name="${prefix}_orbbec_astra_depth_link"></link>
+    <link name="${tf_prefix_ext}orbbec_astra_depth_link"></link>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
-    <joint name="body_link_to_${prefix}_orbbec_astra_link_joint" type="fixed">
+    <joint name="${parent_link}_to_${tf_prefix_ext}orbbec_astra_link_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="body_link" />
-      <child link="${prefix}_orbbec_astra_link" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}orbbec_astra_link" />
     </joint>
 
-    <joint name="${prefix}_orbbec_astra_depth_link_joint" type="fixed">
-      <origin xyz="0.01 0 0.035" rpy="${-pi/2} 0 ${-pi/2}" />
-      <parent link="${prefix}_orbbec_astra_link" />
-      <child link="${prefix}_orbbec_astra_depth_link" />
+    <joint name="${tf_prefix_ext}orbbec_astra_depth_link_joint" type="fixed">
+      <origin xyz="0.01 0.0 0.035" rpy="0.0 ${pi/2} 0.0" />
+      <parent link="${tf_prefix_ext}orbbec_astra_link" />
+      <child link="${tf_prefix_ext}orbbec_astra_depth_link" />
     </joint>
 
-    <gazebo reference="${prefix}_orbbec_astra_link">
+    <joint name="${tf_prefix_ext}orbbec_astra_depth_link_refference_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="${pi/2} ${-pi/2} 0.0" />
+      <parent link="${tf_prefix_ext}orbbec_astra_depth_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
+    </joint>
+
+    <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
       <material>Gazebo/DarkGrey</material>
     </gazebo>
 
-    <gazebo reference="${prefix}_orbbec_astra_link">
-      <sensor type="depth" name="${prefix}_orbbec_astra_camera">
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="depth" name="${tf_prefix_ext}orbbec_astra_camera">
         <always_on>1</always_on>
         <visualize>true</visualize>
         <camera>
@@ -60,11 +81,12 @@
             <far>8.0</far>
           </clip>
         </camera>
+
         <plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
           <alwaysOn>true</alwaysOn>
           <updateRate>10.0</updateRate>
           <cameraName>camera</cameraName>
-          <frameName>${prefix}_orbbec_astra_depth_link</frameName>
+          <frameName>${tf_prefix_ext}${frame_id}</frameName>
           <imageTopicName>rgb/image_raw</imageTopicName>
           <depthImageTopicName>depth/image_raw</depthImageTopicName>
           <pointCloudTopicName>depth/points</pointCloudTopicName>
@@ -72,11 +94,11 @@
           <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
           <pointCloudCutoff>0.4</pointCloudCutoff>
           <hackBaseline>0.07</hackBaseline>
-          <distortionK1>0.0</distortionK1>
-          <distortionK2>0.0</distortionK2>
-          <distortionK3>0.0</distortionK3>
-          <distortionT1>0.0</distortionT1>
-          <distortionT2>0.0</distortionT2>
+          <distortionK1>0.07</distortionK1>
+          <distortionK2>0.00</distortionK2>
+          <distortionK3>0.00</distortionK3>
+          <distortionT1>0.00</distortionT1>
+          <distortionT2>0.00</distortionT2>
           <CxPrime>0.0</CxPrime>
           <Cx>0.0</Cx>
           <Cy>0.0</Cy>
