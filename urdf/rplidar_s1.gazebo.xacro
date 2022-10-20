@@ -22,12 +22,18 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
+    <joint name="${parent_link}_to_${tf_prefix_ext}rplidar_s1_link_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}rplidar_s1_link" />
+    </joint>
+
     <link name="${tf_prefix_ext}rplidar_s1_link">
       <visual>
         <geometry>
           <mesh filename="file://$(find ros_components_description)/meshes/rplidar_s1.stl" scale="0.0001 0.0001 0.0001" />
         </geometry>
-        <origin xyz="0.0 0.0 ${0.051/2.0}" rpy="0 0 -${pi/2.0}"/>
+        <origin xyz="0.0 0.0 ${0.051/2.0}" rpy="0.0 0.0 -${pi/2.0}"/>
         <material name="DarkGrey"/>
       </visual>
 
@@ -40,29 +46,17 @@
 
       <inertial>
         <mass value="0.105" />
-        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
       </inertial>
     </link>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
-    
-
-    <joint name="${parent_link}_to_${tf_prefix_ext}rplidar_s1_link_joint" type="fixed">
-      <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}rplidar_s1_link" />
-    </joint>
-
     <joint name="${tf_prefix_ext}${frame_id}_joint" type="fixed">
-      <origin xyz="0 0 0.04" rpy="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 0.04" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}rplidar_s1_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-
-    <gazebo reference="${tf_prefix_ext}rplidar_s1_link">
-      <material>Gazebo/DarkGrey</material>
-    </gazebo>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_s1_sensor">
@@ -101,5 +95,10 @@
         </plugin>
       </sensor>
     </gazebo> 
+
+    <gazebo reference="${tf_prefix_ext}rplidar_s1_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
   </xacro:macro>
 </robot>

@@ -22,6 +22,12 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
+    <joint name="${parent_link}_to_${tf_prefix_ext}velodyne_puck_link_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}velodyne_puck_link" />
+    </joint>
+
     <link name="${tf_prefix_ext}velodyne_puck_link">
       <visual>
         <geometry>
@@ -44,23 +50,13 @@
       </inertial>
     </link>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
-
-    <joint name="${parent_link}_to_${tf_prefix_ext}velodyne_puck_link_joint" type="fixed">
-      <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}velodyne_puck_link" />
-    </joint>
-
     <joint name="${tf_prefix_ext}velodyne_puck_link_joint_to_${tf_prefix_ext}${frame_id}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0378" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}velodyne_puck_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <gazebo reference="${tf_prefix_ext}velodyne_puck_link">
-      <material>Gazebo/DarkGrey</material>
-    </gazebo>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_puck_sensor">
@@ -68,7 +64,7 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>3600</samples>
+              <samples>1024</samples>
               <resolution>1</resolution>
               <min_angle>-${pi}</min_angle>
               <max_angle>${pi}</max_angle>
@@ -105,5 +101,10 @@
         </plugin>
       </sensor>
     </gazebo> 
+
+    <gazebo reference="${tf_prefix_ext}velodyne_puck_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
   </xacro:macro>
 </robot>

@@ -10,11 +10,9 @@
 
     <xacro:if value="${use_gpu}">
       <xacro:property name="ray_type" value="gpu_ray" />
-      <xacro:property name="plugin_file_name" value="libgazebo_ros_gpu_ray_sensor.so" />
     </xacro:if>
     <xacro:unless value="${use_gpu}">
       <xacro:property name="ray_type" value="ray" />
-      <xacro:property name="plugin_file_name" value="libgazebo_ros_ray_sensor.so" />
     </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -24,10 +22,16 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}" />
     </xacro:unless>
 
+    <joint name="${parent_link}_to_${tf_prefix_ext}ouster_os1_32_link_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}ouster_os1_32_link" />
+    </joint>
+
     <link name="${tf_prefix_ext}ouster_os1_32_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.stl" scale="1 1 0.65" />
+          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.stl" scale="1.0 1.0 0.65" />
         </geometry>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2.0}"/>
         <material name="Grey"/>
@@ -42,27 +46,17 @@
 
       <inertial>
           <mass value="0.447" />
-          <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
       </inertial>
     </link>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
-
-    <joint name="${parent_link}_to_${tf_prefix_ext}ouster_os1_32_link_joint" type="fixed">
-      <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}ouster_os1_32_link" />
-    </joint>
-
     <joint name="${tf_prefix_ext}ouster_os1_32_link_to_${tf_prefix_ext}${frame_id}_joint" type="fixed">
-      <origin xyz="0 0 0.023" rpy="0 0 0" />
+      <origin xyz="0.0 0.0 0.023" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}ouster_os1_32_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <gazebo reference="${tf_prefix_ext}ouster_os1_32_link">
-      <material>Gazebo/Grey</material>
-    </gazebo>
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}ouster_os1_32_sensor">
@@ -107,5 +101,10 @@
         </plugin>
       </sensor>
     </gazebo> 
+
+    <gazebo reference="${tf_prefix_ext}ouster_os1_32_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
   </xacro:macro>
 </robot>
