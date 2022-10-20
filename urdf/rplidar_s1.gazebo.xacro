@@ -4,8 +4,8 @@
                params="parent_link xyz rpy
                        use_gpu:=false
                        tf_prefix:=None
-                       topic:=rp_scan
-                       frame_id:=rp_laser
+                       topic:=scan
+                       frame_id:=laser
                        simulation_engine:=gazebo-classic">
 
     <xacro:if value="${use_gpu}">

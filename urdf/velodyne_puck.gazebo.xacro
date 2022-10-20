@@ -8,13 +8,6 @@
                        frame_id:=velodyne
                        simulation_engine:=gazebo-classic">
 
-    <xacro:if value="${use_gpu}">
-      <xacro:property name="ray_type" value="gpu_ray" />
-    </xacro:if>
-    <xacro:unless value="${use_gpu}">
-      <xacro:property name="ray_type" value="ray" />
-    </xacro:unless>
-
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="tf_prefix_ext" value="" />
     </xacro:if>
