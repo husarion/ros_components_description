@@ -24,6 +24,12 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
+    <joint name="${parent_link}_to_${tf_prefix_ext}rplidar_s1_link_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}rplidar_s1_link" />
+    </joint>
+
     <link name="${tf_prefix_ext}rplidar_s1_link">
       <visual>
         <geometry>
@@ -46,26 +52,13 @@
       </inertial>
     </link>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
-    
-
-    <joint name="${parent_link}_to_${tf_prefix_ext}rplidar_s1_link_joint" type="fixed">
-      <origin xyz="${xyz}" rpy="${rpy}" />
-      <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}rplidar_s1_link" />
-    </joint>
-
-    <joint name="${tf_prefix_ext}${frame_id}_joint" type="fixed">
+    <joint name="${tf_prefix_ext}rplidar_s1_to_${tf_prefix_ext}${frame_id}_joint" type="fixed">
       <origin xyz="0 0 0.04" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}rplidar_s1_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-
-    <gazebo reference="${tf_prefix_ext}rplidar_s1_link">
-      <material>Gazebo/DarkGrey</material>
-    </gazebo>
-
+    <link name="${tf_prefix_ext}${frame_id}"></link>
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_s1_sensor">
@@ -98,5 +91,10 @@
         </plugin>
       </sensor>
     </gazebo> 
+
+    <gazebo reference="${tf_prefix_ext}rplidar_s1_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
   </xacro:macro>
 </robot>
