@@ -2,7 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="ouster_os1_32"
                params="parent_link xyz rpy
-                       use_gpu:=false
                        tf_prefix:=None
                        topic:=os_lidar
                        frame_id:=os_lidar
