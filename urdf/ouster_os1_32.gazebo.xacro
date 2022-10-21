@@ -48,7 +48,7 @@
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
+    <link name="${tf_prefix_ext}${frame_id}" />
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="ray" name="${tf_prefix_ext}ouster_os1_32_sensor">
