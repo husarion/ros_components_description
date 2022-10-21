@@ -23,7 +23,7 @@
     <link name="${tf_prefix_ext}ouster_os1_32_link">
       <visual>
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.stl" scale="1 1 0.65" />
+          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.stl" scale="1.0 1.0 0.65" />
         </geometry>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2.0}"/>
         <material name="Grey"/>
