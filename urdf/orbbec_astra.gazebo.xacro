@@ -48,7 +48,7 @@
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <link name="${tf_prefix_ext}${frame_id}"></link>
+    <link name="${tf_prefix_ext}${frame_id}" />
 
     <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
       <sensor type="depth" name="${tf_prefix_ext}orbbec_astra_camera">
