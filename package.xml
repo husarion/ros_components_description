@@ -5,8 +5,8 @@
   <description>URDF descriptions of components offered with Husarion robots</description>
 
   <maintainer email="support@husarion.com">Husarion</maintainer>
-  <maintainer email="krzysztof.wojciechowski@husarion.com">Krzysztof Wojciechowski</maintainer>
-  <maintainer email="pawel.kowalski@husarion.com">Pawel Kowalski</maintainer>
+  <author email="krzysztof.wojciechowski@husarion.com">Krzysztof Wojciechowski</author>
+  <author email="pawel.kowalski@husarion.com">Pawel Kowalski</author>
   <license>Apache License 2.0</license>
 
   <url type="website">https://husarion.com/</url>
