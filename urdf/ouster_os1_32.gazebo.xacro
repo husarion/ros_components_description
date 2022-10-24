@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="ouster_os1_32"
+               params="parent_link xyz rpy
+                       tf_prefix:=None
+                       topic:=os_lidar
+                       frame_id:=os_lidar
+                       simulation_engine:=gazebo-classic">
+
+    <xacro:if value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}" />
+    </xacro:unless>
+
+    <joint name="${parent_link}_to_${tf_prefix_ext}ouster_os1_32_link_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}ouster_os1_32_link" />
+    </joint>
+
+    <link name="${tf_prefix_ext}ouster_os1_32_link">
+      <visual>
+        <geometry>
+          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.stl" scale="1.0 1.0 1.0" />
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi/2.0}"/>
+        <material name="Grey"/>
+      </visual>
+
+      <collision>
+        <geometry>
+          <cylinder radius="${0.0753/2.0}" length="0.0435" />
+        </geometry>
+        <origin xyz="0.0 0.0 ${0.0435/2.0}" rpy="0.0 0.0 0.0"/>
+      </collision>
+
+      <inertial>
+          <mass value="0.447" />
+          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <joint name="${tf_prefix_ext}ouster_os1_32_link_to_${tf_prefix_ext}${frame_id}_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.023" rpy="0.0 0.0 0.0" />
+      <parent link="${tf_prefix_ext}ouster_os1_32_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
+    </joint>
+
+    <link name="${tf_prefix_ext}${frame_id}" />
+
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="ray" name="${tf_prefix_ext}ouster_os1_32_sensor">
+        <visualize>false</visualize>
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1024</samples>
+              <resolution>1</resolution>
+              <min_angle>-${pi}</min_angle>
+              <max_angle>${pi}</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>32</samples>
+              <resolution>1</resolution>
+              <min_angle>-${25.5/180*pi}</min_angle>
+              <max_angle>${25.5/180*pi}</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>${0.0753/2+0.01}</min>
+            <max>100.0</max>
+            <resolution>0.003</resolution>
+          </range>
+
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.0008</stddev>
+          </noise>
+        </ray>
+
+        <plugin name="ray" filename="libgazebo_ros_block_laser.so">
+          <topicName>${topic}</topicName>
+          <frameName>${tf_prefix_ext}${frame_id}</frameName>
+          <gaussianNoise>0.0008</gaussianNoise>
+          <updateRate>10</updateRate>
+        </plugin>
+      </sensor>
+    </gazebo> 
+    
+    <gazebo reference="${tf_prefix_ext}ouster_os1_32_link">
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+  </xacro:macro>
+</robot>

@@ -1,0 +1,30 @@
+
+name: ROS1 test build
+
+on:
+  push:
+    branches:
+      - 'ros1'
+  
+jobs:
+  catkin-test-build-ubuntu-18-04:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: melodic
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: ros_components_description
+          target-ros1-distro: melodic
+  
+  catkin-test-build-ubuntu-20-04:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: ros-tooling/setup-ros@v0.3
+        with:
+          required-ros-distributions: noetic
+      - uses: ros-tooling/action-ros-ci@v0.2
+        with:
+          package-name: ros_components_description
+          target-ros1-distro: noetic

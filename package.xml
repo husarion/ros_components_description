@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ros_components_description</name>
+  <version>0.1.0</version>
+  <description>URDF descriptions of components offered with Husarion robots</description>
+
+  <maintainer email="support@husarion.com">Husarion</maintainer>
+  <author email="krzysztof.wojciechowski@husarion.com">Krzysztof Wojciechowski</author>
+  <author email="pawel.kowalski@husarion.com">Pawel Kowalski</author>
+  <license>Apache License 2.0</license>
+
+  <url type="website">https://husarion.com/</url>
+  <url type="repository">https://github.com/husarion/panther_description/tree/ros1</url>
+  <url type="bugtracker">https://github.com/husarion/panther_description/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>gazebo_ros</depend>
+  <depend>urdf</depend>
+  <depend>xacro</depend>
+
+</package>
