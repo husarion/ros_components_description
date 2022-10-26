@@ -7,10 +7,10 @@ on:
   
 jobs:
   colcon-test-build-ubuntu-20-04:
-    matrix:
-      build-type: [ignition-gazebo, gazebo-classic]
-      ros-distro: [foxy, galactic]
-
+    strategy:
+      matrix:
+        build-type: [ignition-gazebo, gazebo-classic]
+        ros-distro: [foxy, galactic]
     env:
       GAZEBO_VERSION: ${{ matrix.build-type }}
 
@@ -25,12 +25,12 @@ jobs:
         with:
           package-name: ros_components_description
           target-ros2-distro: ${{ matrix.ros-distro }}
-          vcs-repo-file-url: ${PWD}/components.repos
   
   colcon-test-build-ubuntu-22-04:
-    matrix:
-      build-type: [ignition-gazebo, gazebo-classic]
-      ros-distro: [humble]
+    strategy:
+      matrix:
+        build-type: [ignition-gazebo, gazebo-classic]
+        ros-distro: [humble]
 
     env:
       GAZEBO_VERSION: ${{ matrix.build-type }}
@@ -46,4 +46,3 @@ jobs:
         with:
           package-name: ros_components_description
           target-ros2-distro: ${{ matrix.ros-distro }}
-          vcs-repo-file-url: ${PWD}/components.repos
