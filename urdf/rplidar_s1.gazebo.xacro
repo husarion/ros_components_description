@@ -34,7 +34,9 @@
           <mesh filename="file://$(find ros_components_description)/meshes/rplidar_s1.stl" scale="0.0001 0.0001 0.0001" />
         </geometry>
         <origin xyz="0.0 0.0 ${0.051/2.0}" rpy="0.0 0.0 -${pi/2.0}" />
-        <material name="DarkGrey" />
+        <material name="DarkGrey">
+          <color rgba="0.05 0.05 0.05 1.0" />
+        </material>
       </visual>
 
       <collision>
