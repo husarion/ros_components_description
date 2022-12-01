@@ -20,8 +20,6 @@
   <depend>robot_state_publisher</depend>
   <depend>urdf</depend>
   <depend>xacro</depend>
-  <depend condition="$GAZEBO_VER == gazebo-classic">gazebo_ros</depend>
-  <depend condition="$GAZEBO_VER == ignition-gazebo">ros_ign</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
