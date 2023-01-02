@@ -55,7 +55,7 @@
     </link>
 
     <joint name="${tf_prefix_ext}ouster_os1_32_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
-      <origin xyz="0.0 0.0 0.023" rpy="0.0 0.0 0.0" />
+      <origin xyz="0.0 0.0 0.03618" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}ouster_os1_32_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>

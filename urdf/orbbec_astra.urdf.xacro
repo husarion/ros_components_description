@@ -80,7 +80,7 @@
             <far>8.0</far>
           </clip>
         </camera>
-        <plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+        <plugin name="${tf_prefix_ext}orbbec_astra_camera" filename="libgazebo_ros_openni_kinect.so">
           <alwaysOn>true</alwaysOn>
           <updateRate>10.0</updateRate>
           <cameraName>camera</cameraName>

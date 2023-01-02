@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="velodyne_vlp_16"
+  <xacro:macro name="velodyne_puck"
                params="parent_link xyz rpy
                        use_gpu:=false
                        tf_prefix:=None
@@ -24,17 +24,17 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}velodyne_vlp_16_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}velodyne_puck_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}velodyne_vlp_16_link" />
+      <child link="${tf_prefix_ext}velodyne_puck_link" />
     </joint>
 
-    <link name="${tf_prefix_ext}velodyne_vlp_16_link">
+    <link name="${tf_prefix_ext}velodyne_puck_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/velodyne_vlp_16.dae" />
+          <mesh filename="file://$(find ros_components_description)/meshes/velodyne_puck.dae" />
         </geometry>
       </visual>
 
@@ -54,16 +54,16 @@
       </inertial>
     </link>
 
-    <joint name="${tf_prefix_ext}velodyne_vlp_16_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
+    <joint name="${tf_prefix_ext}velodyne_puck_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0378" rpy="0.0 0.0 0.0" />
-      <parent link="${tf_prefix_ext}velodyne_vlp_16_link" />
+      <parent link="${tf_prefix_ext}velodyne_puck_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
     <link name="${tf_prefix_ext}${frame_id}" />
 
     <gazebo reference="${tf_prefix_ext}${frame_id}">
-      <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_vlp_16_sensor">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_puck_sensor">
         <visualize>false</visualize>
         <update_rate>10</update_rate>
         <ray>
@@ -92,7 +92,7 @@
             <stddev>0.0008</stddev>
           </noise>
         </ray>
-        <plugin name="${tf_prefix_ext}velodyne_vlp_16_${ray_type}" filename="${plugin_file_name}">
+        <plugin name="${tf_prefix_ext}velodyne_puck_${ray_type}" filename="${plugin_file_name}">
           <topicName>${topic}</topicName>
           <frameName>${tf_prefix_ext}${frame_id}</frameName>
           <organize_cloud>true</organize_cloud>

@@ -6,8 +6,9 @@ URDF models of sensors and other components offered alongside Husarion robots
 First build the package by running:
 ``` bash
 git clone -b ros1 https://github.com/husarion/ros_components_description.git
-# in case the package will be used within simulation
-export HUSARION_ROS_BUILD=simulation
+# To enable dependencies required by simulation
+export HUSARION_ROS_BUILD_TYPE=simulation
+
 rosdep init
 rosdep update --rosdistro $ROS_DISTRO
 rosdep install --from-paths src -y -i
