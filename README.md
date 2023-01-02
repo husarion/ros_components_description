@@ -7,7 +7,7 @@ First build the package by running:
 ``` bash
 git clone -b ros2 https://github.com/husarion/ros_components_description.git
 # in case the package will be used within simulation
-export HUSARION_ROS_BUILD=simulation
+export HUSARION_ROS_BUILD_TYPE=simulation
 
 rosdep update --rosdistro $ROS_DISTRO
 rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y
