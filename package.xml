@@ -21,6 +21,10 @@
   <depend>urdf</depend>
   <depend>xacro</depend>
 
+  <depend condition="($HUSARION_ROS_BUILD_TYPE == simulation) and ($GAZEBO_VERSION == gazebo-classic)">
+    gazebo_plugins
+  </depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
