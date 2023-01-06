@@ -21,8 +21,16 @@
   <depend>urdf</depend>
   <depend>xacro</depend>
 
-  <depend condition="($HUSARION_ROS_BUILD_TYPE == simulation) and ($GAZEBO_VERSION == gazebo-classic)">
+  <depend condition="($HUSARION_ROS_BUILD_TYPE == simulation) and ($SIMULATION_ENGINE == gazebo-classic)">
     gazebo_plugins
+  </depend>
+
+  <depend condition="($HUSARION_ROS_BUILD_TYPE == simulation) and ($SIMULATION_ENGINE == ignition-gazebo)">
+    ros_gz_sim
+  </depend>
+
+  <depend condition="($HUSARION_ROS_BUILD_TYPE == simulation) and ($SIMULATION_ENGINE == ignition-gazebo)">
+    ros_gz_bridge
   </depend>
 
   <export>
