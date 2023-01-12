@@ -97,8 +97,8 @@
 
         <plugin name="${tf_prefix_ext}ouster_os1_32_${ray_type}" filename="libgazebo_ros_ray_sensor.so">
           <ros>
-            <namespace>/</namespace>
-            <remapping>~/out:=/${tf_prefix_ext}/${topic}</remapping>
+            <namespace></namespace>
+            <remapping>~/out:=${topic}</remapping>
           </ros>
           <output_type>sensor_msgs/PointCloud2</output_type>
           <frame_name>${tf_prefix_ext}${frame_id}</frame_name>

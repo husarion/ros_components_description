@@ -71,7 +71,7 @@
 
         <plugin name="${tf_prefix_ext}orbbec_astra_camera" filename="libgazebo_ros_camera.so">
           <ros>
-            <namespace>/${tf_prefix_ext}orbbec_astra_camera</namespace>
+            <namespace>orbbec_astra_camera</namespace>
             <remapping>custom_camera/image_raw:=rgb/image_raw</remapping>
             <remapping>custom_camera/image_depth:=depth/image_raw</remapping>
             <remapping>custom_camera/camera_info:=rgb/camera_info</remapping>
