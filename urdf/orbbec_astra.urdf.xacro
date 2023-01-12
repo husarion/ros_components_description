@@ -14,7 +14,7 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link}_to_${tf_prefix_ext}orbbec_astra_link_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}orbbec_astra_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
       <child link="${tf_prefix_ext}orbbec_astra_link" />
@@ -22,27 +22,38 @@
 
     <link name="${tf_prefix_ext}orbbec_astra_link">
       <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/orbbec_astra.stl" scale="0.001 0.001 0.001" />
+          <mesh filename="file://$(find ros_components_description)/meshes/orbbec_astra.dae" />
         </geometry>
-        <origin xyz="-0.01 0 0.025" rpy="${pi/2} 0 ${pi/2}"/>
-        <material name="DarkGrey"/>
       </visual>
 
+      <!-- camera module collision -->
       <collision>
+        <origin xyz="${0.0225-0.04/2.0} 0.0 ${0.019+0.03/2.0}" rpy="0.0 0.0 0.0"/>
         <geometry>
-          <box size="0.165 0.04 0.05" />
+          <box size="0.04 0.165 0.03" />
         </geometry>
-        <origin xyz="-0.01 0 0.025" rpy="0 0 ${pi/2}"/>
+      </collision>
+
+      <!-- mounting base model collision -->
+      <collision>
+        <origin xyz="${0.0235-0.06/2.0} 0.0 ${0.019/2.0}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="0.06 0.06 0.019" />
+        </geometry>
       </collision>
 
       <inertial>
-          <mass value="0.105" />
-          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        <origin xyz="0.0 0.0 ${0.019+0.01}" rpy="0.0 0.0 0.0" />
+        <mass value="0.300" />
+        <inertia ixx="0.00073916" ixy="0.0"        ixz="0.0"
+                                  iyy="0.00015435" iyz="0.0"
+                                                   izz="0.00077395" />
       </inertial>
     </link>
 
-    <joint name="${tf_prefix_ext}${frame_id}_link_joint" type="fixed">
+    <joint name="${tf_prefix_ext}orbbec_astra_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.01 0 0.035" rpy="${-pi/2} 0 ${-pi/2}" />
       <parent link="${tf_prefix_ext}orbbec_astra_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
@@ -69,7 +80,7 @@
             <far>8.0</far>
           </clip>
         </camera>
-        <plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+        <plugin name="${tf_prefix_ext}orbbec_astra_camera" filename="libgazebo_ros_openni_kinect.so">
           <alwaysOn>true</alwaysOn>
           <updateRate>10.0</updateRate>
           <cameraName>camera</cameraName>
@@ -92,11 +103,6 @@
           <focalLength>0.0</focalLength>
         </plugin>
       </sensor>
-    </gazebo> 
-
-    <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
-      <material>Gazebo/DarkGrey</material>
-    </gazebo>
-    
+    </gazebo>     
   </xacro:macro>
 </robot>
