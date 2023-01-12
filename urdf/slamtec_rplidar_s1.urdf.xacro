@@ -73,7 +73,7 @@
       <gazebo reference="${tf_prefix_ext}${frame_id}">
         <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_s1_sensor">
           
-          <topic>/scan</topic>
+          <topic>scan</topic>
           <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
           <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
 
