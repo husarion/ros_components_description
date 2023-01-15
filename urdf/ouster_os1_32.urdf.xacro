@@ -76,12 +76,12 @@
             <vertical>
               <samples>32</samples>
               <resolution>1</resolution>
-              <min_angle>-${25.5/180*pi}</min_angle>
-              <max_angle>${25.5/180*pi}</max_angle>
+              <min_angle>-${22.5/180*pi}</min_angle>
+              <max_angle>${22.5/180*pi}</max_angle>
             </vertical>
           </scan>
           <range>
-            <min>${0.085/2.0+0.01}</min>
+            <min>0.8</min>
             <max>120.0</max>
             <resolution>0.003</resolution>
           </range>
@@ -93,7 +93,7 @@
           </noise>
         </ray>
         
-        <update_rate>10.0</update_rate>
+        <update_rate>20.0</update_rate>
 
         <plugin name="${tf_prefix_ext}ouster_os1_32_${ray_type}" filename="libgazebo_ros_ray_sensor.so">
           <ros>
