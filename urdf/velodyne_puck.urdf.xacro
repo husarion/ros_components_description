@@ -69,21 +69,21 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>1024</samples>
+              <samples>900</samples>
               <resolution>1</resolution>
               <min_angle>-${pi}</min_angle>
               <max_angle>${pi}</max_angle>
             </horizontal>
             <vertical>
-              <samples>75</samples>
+              <samples>16</samples>
               <resolution>1</resolution>
               <min_angle>-${15/180*pi}</min_angle>
               <max_angle>${15/180*pi}</max_angle>
             </vertical>
           </scan>
           <range>
-            <min>${0.103/2.0+0.01}</min>
-            <max>100.0</max>
+            <min>0.4</min>
+            <max>130.0</max>
             <resolution>0.003</resolution>
           </range>
           <noise>
@@ -97,7 +97,7 @@
           <frameName>${tf_prefix_ext}${frame_id}</frameName>
           <organize_cloud>true</organize_cloud>
           <min_range>0.4</min_range>
-          <max_range>100.0</max_range>
+          <max_range>130.0</max_range>
           <gaussianNoise>0.0008</gaussianNoise>
         </plugin>
       </sensor>
