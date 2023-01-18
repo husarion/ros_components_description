@@ -64,9 +64,15 @@
     <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
       <sensor type="depth" name="${tf_prefix_ext}orbbec_astra_camera">
         <always_on>1</always_on>
-        <update_rate>10</update_rate>
+        <update_rate>20</update_rate>
 
         <camera name="${tf_prefix_ext}camera">
+          <horizontal_fov>${60/180*pi}</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
         </camera>
 
         <plugin name="${tf_prefix_ext}orbbec_astra_camera" filename="libgazebo_ros_camera.so">
