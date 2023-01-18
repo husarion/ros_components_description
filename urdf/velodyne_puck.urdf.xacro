@@ -97,7 +97,7 @@
           <frameName>${tf_prefix_ext}${frame_id}</frameName>
           <organize_cloud>true</organize_cloud>
           <min_range>0.4</min_range>
-          <max_range>130.0</max_range>
+          <max_range>100.0</max_range>
           <gaussianNoise>0.0008</gaussianNoise>
         </plugin>
       </sensor>
