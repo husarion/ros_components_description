@@ -32,19 +32,19 @@
     <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
     <xacro:if value="${model == 'A2M7'}">
       <xacro:property name="samples" value="1600" />
-      <xacro:property name="max_distance" value="14" />
+      <xacro:property name="max_distance" value="14.0" />
       <xacro:property name="mesh" value="slamtec_rplidar_ax.dae" />
     </xacro:if>
 
     <xacro:if value="${model == 'A2M8'}">
       <xacro:property name="samples" value="800" />
-      <xacro:property name="max_distance" value="10" />
+      <xacro:property name="max_distance" value="10.0" />
       <xacro:property name="mesh" value="slamtec_rplidar_a2m8.dae" />
     </xacro:if>
 
     <xacro:if value="${model == 'A2M12'}">
       <xacro:property name="samples" value="1600" />
-      <xacro:property name="max_distance" value="10" />
+      <xacro:property name="max_distance" value="10.0" />
       <xacro:property name="mesh" value="slamtec_rplidar_ax.dae" />
     </xacro:if>
 
