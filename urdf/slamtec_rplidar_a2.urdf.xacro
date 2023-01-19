@@ -30,7 +30,7 @@
       <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <!--values of max distance are based on tradoff values between best and worst case scenarios -->
+    <!--values of max distance are based on tradeoff values between best and worst case scenarios -->
     <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
     <xacro:if value="${model == 'A2M7'}">
       <xacro:property name="samples" value="1600" />
