@@ -6,7 +6,7 @@
                        tf_prefix:=None
                        topic:=os_lidar
                        frame_id:=os_lidar
-                       simulation_engine:=gazebo-classic" >
+                       simulation_engine:=gazebo-classic">
 
     <xacro:if value="${use_gpu}">
       <xacro:property name="ray_type" value="gpu_ray" />
@@ -32,14 +32,14 @@
 
     <link name="${tf_prefix_ext}ouster_os1_32_link">
       <visual>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
           <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.dae" />
         </geometry>
       </visual>
 
       <collision>
-        <origin xyz="0.0 0.0 ${0.072/2.0}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 ${0.072/2.0}" rpy="0.0 0.0 0.0" />
         <geometry>
           <cylinder radius="${0.085/2.0}" length="0.073" />
         </geometry>
@@ -65,7 +65,7 @@
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}ouster_os1_32_sensor">
         <visualize>false</visualize>
-        <update_rate>20</update_rate>
+        <update_rate>20.0</update_rate>
         <ray>
           <scan>
             <horizontal>
@@ -77,8 +77,8 @@
             <vertical>
               <samples>32</samples>
               <resolution>1</resolution>
-              <min_angle>-${22.5/180*pi}</min_angle>
-              <max_angle>${22.5/180*pi}</max_angle>
+              <min_angle>-${22.5/180.0*pi}</min_angle>
+              <max_angle>${22.5/180.0*pi}</max_angle>
             </vertical>
           </scan>
           <range>
@@ -104,6 +104,5 @@
         </plugin>
       </sensor>
     </gazebo> 
-    
   </xacro:macro>
 </robot>

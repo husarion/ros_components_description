@@ -22,7 +22,7 @@
 
     <link name="${tf_prefix_ext}orbbec_astra_link">
       <visual>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
           <mesh filename="file://$(find ros_components_description)/meshes/orbbec_astra.dae" />
         </geometry>
@@ -30,7 +30,7 @@
 
       <!-- camera module collision -->
       <collision>
-        <origin xyz="${0.0225-0.04/2.0} 0.0 ${0.019+0.03/2.0}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="${0.0225-0.04/2.0} 0.0 ${0.019+0.03/2.0}" rpy="0.0 0.0 0.0" />
         <geometry>
           <box size="0.04 0.165 0.03" />
         </geometry>
@@ -38,7 +38,7 @@
 
       <!-- mounting base model collision -->
       <collision>
-        <origin xyz="${0.0235-0.06/2.0} 0.0 ${0.019/2.0}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="${0.0235-0.06/2.0} 0.0 ${0.019/2.0}" rpy="0.0 0.0 0.0" />
         <geometry>
           <box size="0.06 0.06 0.019" />
         </geometry>
@@ -54,7 +54,7 @@
     </link>
 
     <joint name="${tf_prefix_ext}orbbec_astra_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
-      <origin xyz="0.01 0 0.035" rpy="${-pi/2} 0 ${-pi/2}" />
+      <origin xyz="0.01 0.0 0.035" rpy="${-pi/2.0} 0.0 ${-pi/2.0}" />
       <parent link="${tf_prefix_ext}orbbec_astra_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
@@ -63,10 +63,9 @@
 
     <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
       <sensor type="depth" name="${tf_prefix_ext}orbbec_astra_camera">
-        <always_on>1</always_on>
-        <visualize>true</visualize>
+        <always_on>true</always_on>
         <camera>
-          <horizontal_fov>${60/180*pi}</horizontal_fov>
+          <horizontal_fov>${60.0/180.0*pi}</horizontal_fov>
           <image>
             <format>R8G8B8</format>
             <width>640</width>
