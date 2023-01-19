@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Valid values for model parameter: -->
+  <!--   - A2M7  -->
+  <!--   - A2M8  -->
+  <!--   - A2M12 -->
+  <!-- Those values correspond to model code-names from SLAMTEC -->
+  <xacro:macro name="slamtec_rplidar_a2"
+               params="parent_link xyz rpy
+                       use_gpu:=false
+                       tf_prefix:=None
+                       topic:=scan
+                       frame_id:=laser
+                       model:=A2M12
+                       simulation_engine:=gazebo-classic" >
+
+    <xacro:if value="${use_gpu}">
+      <xacro:property name="ray_type" value="gpu_ray" />
+      <xacro:property name="plugin_file_name" value="libgazebo_ros_gpu_laser.so" />
+    </xacro:if>
+    <xacro:unless value="${use_gpu}">
+      <xacro:property name="ray_type" value="ray" />
+      <xacro:property name="plugin_file_name" value="libgazebo_ros_laser.so" />
+    </xacro:unless>
+
+    <xacro:if value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${tf_prefix == 'None'}">
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
+    </xacro:unless>
+
+    <!--values of max distance are based on tradeoff values between best and worst case scenarios -->
+    <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
+    <xacro:if value="${model == 'A2M7'}">
+      <xacro:property name="samples" value="1600" />
+      <xacro:property name="max_distance" value="14" />
+      <xacro:property name="mesh" value="slamtec_rplidar_ax.dae" />
+    </xacro:if>
+
+    <xacro:if value="${model == 'A2M8'}">
+      <xacro:property name="samples" value="800" />
+      <xacro:property name="max_distance" value="10" />
+      <xacro:property name="mesh" value="slamtec_rplidar_a2m8.dae" />
+    </xacro:if>
+
+    <xacro:if value="${model == 'A2M12'}">
+      <xacro:property name="samples" value="1600" />
+      <xacro:property name="max_distance" value="10" />
+      <xacro:property name="mesh" value="slamtec_rplidar_ax.dae" />
+    </xacro:if>
+
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}slamtec_rplidar_a2_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}slamtec_rplidar_a2_link" />
+    </joint>
+
+    <link name="${tf_prefix_ext}slamtec_rplidar_a2_link">
+      <visual>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <mesh filename="file://$(find ros_components_description)/meshes/${mesh}" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 ${0.041/2.0}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <cylinder radius="${0.076/2.0}" length="0.041" />
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0.0 0.0 ${0.041/2.0}" rpy="0.0 0.0 0.0" />
+        <mass value="0.190" />
+        <inertia ixx="0.000095206" ixy="0.0"         ixz="0.0"
+                                   iyy="0.000095206" iyz="0.0"
+                                                     izz="0.00013718" />
+      </inertial>
+    </link>
+    
+    <joint name="${tf_prefix_ext}slamtec_rplidar_a2_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
+      <origin xyz="0 0 0.031" rpy="0.0 0.0 ${pi}" />
+      <parent link="${tf_prefix_ext}slamtec_rplidar_a2_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
+    </joint>
+
+    <link name="${tf_prefix_ext}${frame_id}" />
+
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}slamtec_rplidar_a2_sensor">
+        <visualize>false</visualize>
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>${samples}</samples>
+              <resolution>1</resolution>
+              <min_angle>-${pi}</min_angle>
+              <max_angle>${pi}</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.2</min>
+            <max>${max_distance}</max>
+            <resolution>0.05</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.001</stddev>
+          </noise>
+        </ray>
+        <plugin name="${ray_type}" filename="${plugin_file_name}">
+          <topicName>${topic}</topicName>
+          <frameName>${tf_prefix_ext}${frame_id}</frameName>
+        </plugin>
+      </sensor>
+    </gazebo> 
+  </xacro:macro>
+</robot>
