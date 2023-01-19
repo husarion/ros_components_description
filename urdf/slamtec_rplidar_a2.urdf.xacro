@@ -115,7 +115,7 @@
               <stddev>0.001</stddev>
             </noise>
           </ray>
-          <always_on>1</always_on>
+          <always_on>true</always_on>
           <visualize>false</visualize>
         </sensor>
       </gazebo>
