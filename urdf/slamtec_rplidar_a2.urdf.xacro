@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Valid values for model parameter: -->
+  <!--   - A2M7  -->
+  <!--   - A2M8  -->
+  <!--   - A2M12 -->
+  <!-- Those values correspond to model code-names from SLAMTEC -->
   <xacro:macro name="slamtec_rplidar_a2"
                params="parent_link xyz rpy
                        use_gpu:=false
