@@ -6,7 +6,7 @@
                        tf_prefix:=None
                        topic:=scan
                        frame_id:=laser
-                       simulation_engine:=gazebo-classic" >
+                       simulation_engine:=gazebo-classic">
 
     <xacro:if value="${use_gpu}">
       <xacro:property name="ray_type" value="gpu_ray" />
@@ -32,7 +32,7 @@
 
     <link name="${tf_prefix_ext}slamtec_rplidar_a3_link">
       <visual>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
           <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
           <mesh filename="file://$(find ros_components_description)/meshes/slamtec_rplidar_ax.dae" />
@@ -40,7 +40,7 @@
       </visual>
 
       <collision>
-        <origin xyz="0.0 0.0 ${0.041/2.0}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0 0.0 ${0.041/2.0}" rpy="0.0 0.0 0.0" />
         <geometry>
           <cylinder radius="${0.076/2.0}" length="0.041" />
         </geometry>
@@ -56,7 +56,7 @@
     </link>
     
     <joint name="${tf_prefix_ext}slamtec_rplidar_a3_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
-      <origin xyz="0 0 0.031" rpy="0.0 0.0 ${pi}" />
+      <origin xyz="0.0 0.0 0.031" rpy="0.0 0.0 ${pi}" />
       <parent link="${tf_prefix_ext}slamtec_rplidar_a3_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
@@ -66,7 +66,7 @@
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}slamtec_rplidar_a3_sensor">
         <visualize>false</visualize>
-        <update_rate>10</update_rate>
+        <update_rate>10.0</update_rate>
         <ray>
           <scan>
             <horizontal>
@@ -84,7 +84,7 @@
           </range>
           <noise>
             <type>gaussian</type>
-            <mean>0</mean>
+            <mean>0.0</mean>
             <stddev>0.001</stddev>
           </noise>
         </ray>
