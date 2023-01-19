@@ -77,8 +77,8 @@
             <vertical>
               <samples>16</samples>
               <resolution>1</resolution>
-              <min_angle>-${15/180*pi}</min_angle>
-              <max_angle>${15/180*pi}</max_angle>
+              <min_angle>-${15.0/180.0*pi}</min_angle>
+              <max_angle>${15.0/180.0*pi}</max_angle>
             </vertical>
           </scan>
           <range>
