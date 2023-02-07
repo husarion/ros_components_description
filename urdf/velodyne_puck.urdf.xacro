@@ -54,7 +54,8 @@
       </inertial>
     </link>
 
-    <joint name="${tf_prefix_ext}velodyne_puck_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
+    <joint name="${tf_prefix_ext}velodyne_puck_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint"
+      type="fixed">
       <origin xyz="0.0 0.0 0.0378" rpy="0.0 0.0 0.0" />
       <parent link="${tf_prefix_ext}velodyne_puck_link" />
       <child link="${tf_prefix_ext}${frame_id}" />
@@ -65,10 +66,13 @@
     <gazebo reference="${tf_prefix_ext}${frame_id}">
       <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_puck_sensor">
         <visualize>false</visualize>
+        <update_rate>10.0</update_rate>
+
         <ray>
           <scan>
             <horizontal>
-              <samples>900</samples>
+              <!-- 0.2 angular resolution for 10Hz -->
+              <samples>1800</samples>
               <resolution>1</resolution>
               <min_angle>-${pi}</min_angle>
               <max_angle>${pi}</max_angle>
@@ -91,18 +95,31 @@
             <stddev>0.0008</stddev>
           </noise>
         </ray>
-        
-        <update_rate>10.0</update_rate>
 
-        <plugin name="${tf_prefix_ext}velodyne_puck_${ray_type}" filename="libgazebo_ros_ray_sensor.so">
-          <ros>
-            <namespace></namespace>
-            <remapping>~/out:=${topic}</remapping>
-          </ros>
-          <output_type>sensor_msgs/PointCloud2</output_type>
-          <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
-        </plugin>
+        <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
+          <topic>${topic}</topic>
+          <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
+          <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
+          <always_on>1</always_on>
+          <plugin filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+          </plugin>
+        </xacro:if>
+
+        <xacro:if value="${simulation_engine == 'gazebo-classic'}">
+          <plugin name="${tf_prefix_ext}velodyne_puck_${ray_type}"
+            filename="libgazebo_ros_ray_sensor.so">
+            <ros>
+              <namespace></namespace>
+              <remapping>~/out:=${topic}</remapping>
+            </ros>
+            <output_type>sensor_msgs/PointCloud2</output_type>
+            <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
+          </plugin>
+        </xacro:if>
+        
       </sensor>
-    </gazebo> 
+    </gazebo>
   </xacro:macro>
 </robot>
