@@ -1,0 +1,5 @@
+ROS COMPONENTS DESCRIPTION PACKAGE LICENSING
+The default license for ROS components description package is the Apache License, Version 2.0 
+(see LICENSE_APACHE2.txt); you may elect at your option to use the ROS COMPONENTS DESCRIPTION 
+package under the MIT License (see LICENSE_MIT.txt).  Contributions must be 
+made under both licenses.
