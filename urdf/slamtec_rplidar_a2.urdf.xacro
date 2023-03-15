@@ -27,8 +27,9 @@
         <xacro:property name="ray_type" value="ray" />
       </xacro:if>
       <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-        <!-- this is king of awkward, but it seems like cpu lidar does not work -->
-        <xacro:property name="ray_type" value="gpu_lidar" />
+        <!-- use_gpu has to be set to true, CPU lidar doesn't work in ignition -
+          https://github.com/gazebosim/gz-sensors/issues/26 -->
+        <xacro:property name="ray_type" value="lidar" />
       </xacro:if>
     </xacro:unless>
 
