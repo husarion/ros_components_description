@@ -15,10 +15,22 @@
                        simulation_engine:=gazebo-classic">
 
     <xacro:if value="${use_gpu}">
-      <xacro:property name="ray_type" value="gpu_ray" />
+      <xacro:if value="${simulation_engine == 'gazebo-classic'}">
+        <xacro:property name="ray_type" value="gpu_ray" />
+      </xacro:if>
+      <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
+        <xacro:property name="ray_type" value="gpu_lidar" />
+      </xacro:if>
     </xacro:if>
     <xacro:unless value="${use_gpu}">
-      <xacro:property name="ray_type" value="ray" />
+      <xacro:if value="${simulation_engine == 'gazebo-classic'}">
+        <xacro:property name="ray_type" value="ray" />
+      </xacro:if>
+      <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
+        <!-- use_gpu has to be set to true, CPU lidar doesn't work in ignition -
+          https://github.com/gazebosim/gz-sensors/issues/26 -->
+        <xacro:property name="ray_type" value="lidar" />
+      </xacro:if>
     </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -90,7 +102,7 @@
       <gazebo reference="${tf_prefix_ext}${frame_id}">
         <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_a2_sensor">
           
-          <topic>scan</topic>
+          <topic>${topic}</topic>
           <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
           <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
 
