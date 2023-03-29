@@ -129,7 +129,7 @@
 
       <!-- camera right IR joints and links -->
       <joint name="${name}_to_${name}_infra2_joint" type="fixed">
-        <origin xyz="0 ${d435_cam_depth_to_infra2_offset} 0.0" rpy="0.0 0.0 0.0" />
+        <origin xyz="0.0 ${d435_cam_depth_to_infra2_offset} 0.0" rpy="0.0 0.0 0.0" />
         <parent link="${name}_link" />
         <child link="${name}_infra2_frame" />
       </joint>
@@ -182,7 +182,7 @@
           </image>
           <clip>
             <near>0.02</near>
-            <far>300</far>
+            <far>300.0</far>
           </clip>
         </sensor>
 
@@ -208,7 +208,7 @@
           </clip>
           <noise>
             <type>gaussian</type>
-            <mean>0</mean>
+            <mean>0.0</mean>
             <stddev>0.005</stddev>
           </noise>
         </sensor>
