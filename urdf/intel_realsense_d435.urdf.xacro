@@ -22,7 +22,7 @@
     params="parent_link xyz rpy
             name:=camera
             topic:=camera
-            use_nominal_extrinsics:=false 
+            use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
     <!-- The following values are approximate, and the camera node

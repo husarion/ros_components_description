@@ -64,7 +64,7 @@
                                                      izz="0.00013718" />
       </inertial>
     </link>
-    
+
     <joint name="${tf_prefix_ext}slamtec_rplidar_a3_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.031" rpy="0.0 0.0 ${pi}" />
       <parent link="${tf_prefix_ext}slamtec_rplidar_a3_link" />
@@ -76,7 +76,7 @@
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <gazebo reference="${tf_prefix_ext}${frame_id}">
         <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_a3_sensor">
-          
+
           <topic>${topic}</topic>
           <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
           <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
@@ -139,9 +139,9 @@
               <stddev>0.001</stddev>
             </noise>
           </ray>
-          
+
           <update_rate>10.0</update_rate>
-          
+
           <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
             <ros>
               <namespace></namespace>
@@ -151,7 +151,7 @@
             <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
           </plugin>
         </sensor>
-      </gazebo> 
+      </gazebo>
     </xacro:if>
   </xacro:macro>
 </robot>

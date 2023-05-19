@@ -117,7 +117,7 @@
             <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
           </plugin>
         </xacro:if>
-        
+
       </sensor>
     </gazebo>
   </xacro:macro>
