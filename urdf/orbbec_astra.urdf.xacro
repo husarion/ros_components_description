@@ -6,7 +6,7 @@
                        topic:=camera
                        frame_id:=depth
                        simulation_engine:=gazebo-classic">
-    
+
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="tf_prefix_ext" value="" />
     </xacro:if>
@@ -126,7 +126,7 @@
             <max_depth>8.0</max_depth>
           </plugin>
         </sensor>
-      </gazebo> 
+      </gazebo>
     </xacro:if>
   </xacro:macro>
 </robot>
