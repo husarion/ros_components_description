@@ -53,40 +53,37 @@
       </inertial>
     </link>
 
-    <xacro:if value="$(arg use_sim)">
-      <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_color_joint" type="fixed">
-        <origin xyz="-0.002 0.0125 0.03325" rpy="-0.003 0.0 -0.003" />
-        <parent link="${parent_link}" />
-        <child link="${tf_prefix_ext}${camera_name}_color_frame" />
-      </joint>
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_color_joint" type="fixed">
+      <origin xyz="-0.002 0.0125 0.03325" rpy="-0.003 0.0 -0.003" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}${camera_name}_color_frame" />
+    </joint>
 
-      <link name="${tf_prefix_ext}${camera_name}_depth_frame" />
+    <link name="${tf_prefix_ext}${camera_name}_depth_frame" />
 
-      <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_depth_joint" type="fixed">
-        <origin xyz="0.0 0.0 0.03325" rpy="0.0 0.0 0.0" />
-        <parent link="${parent_link}" />
-        <child link="${tf_prefix_ext}${camera_name}_depth_frame" />
-      </joint>
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_depth_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.03325" rpy="0.0 0.0 0.0" />
+      <parent link="${parent_link}" />
+      <child link="${tf_prefix_ext}${camera_name}_depth_frame" />
+    </joint>
 
-      <link name="${tf_prefix_ext}${camera_name}_color_frame" />
+    <link name="${tf_prefix_ext}${camera_name}_color_frame" />
 
-      <joint name="${tf_prefix_ext}${camera_name}_color_to_${tf_prefix_ext}${camera_name}_color_optical_joint" type="fixed">
-        <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
-        <parent link="${tf_prefix_ext}${camera_name}_color_frame" />
-        <child link="${tf_prefix_ext}${camera_name}_color_optical_frame" />
-      </joint>
+    <joint name="${tf_prefix_ext}${camera_name}_color_to_${tf_prefix_ext}${camera_name}_color_optical_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
+      <parent link="${tf_prefix_ext}${camera_name}_color_frame" />
+      <child link="${tf_prefix_ext}${camera_name}_color_optical_frame" />
+    </joint>
 
-      <link name="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
+    <link name="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
 
-      <joint name="${tf_prefix_ext}${camera_name}_depth_to_${tf_prefix_ext}${camera_name}_depth_optical_joint" type="fixed">
-        <origin xyz="0.1 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
-        <parent link="${tf_prefix_ext}${camera_name}_depth_frame" />
-        <child link="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
-      </joint>
+    <joint name="${tf_prefix_ext}${camera_name}_depth_to_${tf_prefix_ext}${camera_name}_depth_optical_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
+      <parent link="${tf_prefix_ext}${camera_name}_depth_frame" />
+      <child link="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
+    </joint>
 
-      <link name="${tf_prefix_ext}${camera_name}_color_optical_frame" />
-
-    </xacro:if>
+    <link name="${tf_prefix_ext}${camera_name}_color_optical_frame" />
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <gazebo reference="${tf_prefix_ext}${camera_name}_orbbec_astra_link">
