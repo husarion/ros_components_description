@@ -4,8 +4,7 @@
                params="parent_link xyz rpy
                        tf_prefix:=None
                        camera_name:=camera
-                       simulation_engine:=gazebo-classic
-                       use_sim:=false">
+                       simulation_engine:=gazebo-classic">
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="tf_prefix_ext" value="" />
