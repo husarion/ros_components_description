@@ -45,7 +45,7 @@
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
           <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
-          <mesh filename="file://$(find ros_components_description)/meshes/slamtec_rplidar_ax.dae" />
+          <mesh filename="package://ros_components_description/meshes/slamtec_rplidar_ax.dae" />
         </geometry>
       </visual>
 
