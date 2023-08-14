@@ -73,7 +73,7 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/intel_realsense_d435.dae" />
+          <mesh filename="package://ros_components_description/meshes/intel_realsense_d435.dae" />
         </geometry>
       </visual>
       <collision>
