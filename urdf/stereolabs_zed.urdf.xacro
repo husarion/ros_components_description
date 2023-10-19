@@ -183,8 +183,8 @@
           <ignition_frame_id>${name}_left_camera_optical_frame</ignition_frame_id>
           <horizontal_fov>${110.0/180.0*pi}</horizontal_fov>
           <image>
-            <width>100</width>
-            <height>100</height>
+            <width>1920</width>
+            <height>1080</height>
             <format>R8G8B8</format>
           </image>
           <clip>
