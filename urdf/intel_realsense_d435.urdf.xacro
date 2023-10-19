@@ -17,7 +17,7 @@
 # limitations under the License.
 -->
 
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="intel_camera" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="intel_realsense_d435"
     params="parent_link xyz rpy
             name:=camera
@@ -197,7 +197,7 @@
 
           <!-- Pointcloud is published in internal gazebo frame name, and there seem to be no
             way to change it, interestingly depth image is published correctly in the ignition_frame_id -->
-          <ignition_frame_id>${name}_depth_frame</ignition_frame_id>
+          <ignition_frame_id>${name}_depth_optical_frame</ignition_frame_id>
 
           <horizontal_fov>${87.0/180.0*pi}</horizontal_fov>
           <image>
