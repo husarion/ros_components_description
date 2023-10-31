@@ -210,7 +210,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${model}/zed_node/point_cloud/cloud_registered</topic>
+          <topic>${model}/zed_node/depth</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${name}_center_optical_frame</ignition_frame_id>
