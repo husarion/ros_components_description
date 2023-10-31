@@ -164,6 +164,15 @@
       <link name="${name}_color_optical_frame" />
     </xacro:if>
 
+    <!-- To be removed after changing the version to a newer version of Gazebo (current Fortress)
+    Causing this bag https://github.com/gazebosim/gz-sensors/issues/239 -->
+    <link name="rosbot_xl/base_link/camera_depth" />
+    <joint name="${name}_workaround_joint" type="fixed">
+      <parent link="${name}_depth_frame" />
+      <child link="rosbot_xl/base_link/camera_depth" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth camera
         should be more accurate for D435 - different frames and fovs can be set -->
@@ -195,8 +204,6 @@
           <topic>${topic}/depth</topic>
           <visualize>false</visualize>
 
-          <!-- Pointcloud is published in internal gazebo frame name, and there seem to be no
-            way to change it, interestingly depth image is published correctly in the ignition_frame_id -->
           <ignition_frame_id>${name}_depth_optical_frame</ignition_frame_id>
           <camera>
             <horizontal_fov>${87.0/180.0*pi}</horizontal_fov>
