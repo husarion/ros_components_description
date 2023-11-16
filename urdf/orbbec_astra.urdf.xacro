@@ -10,6 +10,7 @@
     <xacro:if value="${prefix != ''}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:if>
+
     <joint
       name="${parent_link.rstrip('_link')}_to_${prefix}${name}_orbbec_astra_joint"
       type="fixed">
