@@ -4,7 +4,8 @@ URDF models of sensors and other components offered alongside with Husarion robo
 ## Including sensor
 
 First build the package by running:
-``` bash
+
+```bash
 # create workspace folder and clone ros_components_description
 mkdir -p ros2_ws/src
 cd ros2_ws
@@ -25,7 +26,8 @@ colcon build
 ```
 
 To include the sensor, use the following code:
-``` xml
+
+```xml
 <!-- include file with definition of xacro macro of sensor -->
 <xacro:include filename="$(find ros_components_description)/urdf/slamtec_rplidar_s1.urdf.xacro" ns="lidar" />
 

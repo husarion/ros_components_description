@@ -1,25 +1,24 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="orbbec_astra" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="orbbec_astra"
-               params="parent_link xyz rpy
-                       tf_prefix:=None
-                       camera_name:=camera
-                       simulation_engine:=gazebo-classic">
+    params="parent_link xyz rpy
+            tf_prefix:=''
+            name:=camera
+            simulation_engine:=ignition-gazebo">
 
-    <xacro:if value="${tf_prefix == 'None'}">
-      <xacro:property name="tf_prefix_ext" value="" />
+    <xacro:property name="prefix" value="${tf_prefix}" lazy_eval="false" />
+    <xacro:if value="${prefix != ''}">
+      <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == 'None'}">
-      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
-    </xacro:unless>
-
-    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_orbbec_astra_joint" type="fixed">
+    <joint
+      name="${parent_link.rstrip('_link')}_to_${prefix}${name}_orbbec_astra_joint"
+      type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}${camera_name}_orbbec_astra_link" />
+      <child link="${prefix}${name}_orbbec_astra_link" />
     </joint>
 
-    <link name="${tf_prefix_ext}${camera_name}_orbbec_astra_link">
+    <link name="${prefix}${name}_orbbec_astra_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
@@ -46,56 +45,62 @@
       <inertial>
         <origin xyz="0.0 0.0 ${0.019+0.01}" rpy="0.0 0.0 0.0" />
         <mass value="0.300" />
-        <inertia ixx="0.00073916" ixy="0.0"        ixz="0.0"
-                                  iyy="0.00015435" iyz="0.0"
-                                                   izz="0.00077395" />
+        <inertia ixx="0.00073916" ixy="0.0" ixz="0.0"
+          iyy="0.00015435" iyz="0.0"
+          izz="0.00077395" />
       </inertial>
     </link>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_color_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_color_joint"
+      type="fixed">
       <origin xyz="-0.002 0.0125 0.03325" rpy="-0.003 0.0 -0.003" />
       <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}${camera_name}_color_frame" />
+      <child link="${prefix}${name}_color_frame" />
     </joint>
 
-    <link name="${tf_prefix_ext}${camera_name}_depth_frame" />
+    <link name="${prefix}${name}_depth_frame" />
 
-    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}${camera_name}_depth_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_depth_joint"
+      type="fixed">
       <origin xyz="0.0 0.0 0.03325" rpy="0.0 0.0 0.0" />
       <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}${camera_name}_depth_frame" />
+      <child link="${prefix}${name}_depth_frame" />
     </joint>
 
-    <link name="${tf_prefix_ext}${camera_name}_color_frame" />
+    <link name="${prefix}${name}_color_frame" />
 
-    <joint name="${tf_prefix_ext}${camera_name}_color_to_${tf_prefix_ext}${camera_name}_color_optical_joint" type="fixed">
+    <joint
+      name="${prefix}${name}_color_to_${prefix}${name}_color_optical_joint"
+      type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
-      <parent link="${tf_prefix_ext}${camera_name}_color_frame" />
-      <child link="${tf_prefix_ext}${camera_name}_color_optical_frame" />
+      <parent link="${prefix}${name}_color_frame" />
+      <child link="${prefix}${name}_color_optical_frame" />
     </joint>
 
-    <link name="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
+    <link name="${prefix}${name}_depth_optical_frame" />
 
-    <joint name="${tf_prefix_ext}${camera_name}_depth_to_${tf_prefix_ext}${camera_name}_depth_optical_joint" type="fixed">
+    <joint
+      name="${prefix}${name}_depth_to_${prefix}${name}_depth_optical_joint"
+      type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
-      <parent link="${tf_prefix_ext}${camera_name}_depth_frame" />
-      <child link="${tf_prefix_ext}${camera_name}_depth_optical_frame" />
+      <parent link="${prefix}${name}_depth_frame" />
+      <child link="${prefix}${name}_depth_optical_frame" />
     </joint>
 
-    <link name="${tf_prefix_ext}${camera_name}_color_optical_frame" />
+    <link name="${prefix}${name}_color_optical_frame" />
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-      <gazebo reference="${tf_prefix_ext}${camera_name}_orbbec_astra_link">
-        <sensor type="rgbd_camera" name="${tf_prefix_ext}${camera_name}_orbbec_astra_camera">
+      <gazebo reference="${prefix}${name}_orbbec_astra_link">
+        <sensor type="rgbd_camera" name="${prefix}${name}_orbbec_astra_camera">
           <always_on>true</always_on>
           <update_rate>20.0</update_rate>
 
-          <topic>${camera_name}</topic>
+          <topic>${name}</topic>
           <!-- It is not possible to split the frame of the color and the depth stream.
-               The frame of color stream should be ${tf_prefix_ext}${camera_name}_color_optical_frame -->
-          <ignition_frame_id>${tf_prefix_ext}${camera_name}_depth_optical_frame</ignition_frame_id>
+                                 The frame of color stream should be ${prefix}${name}_color_optical_frame -->
+          <ignition_frame_id>${prefix}${name}_depth_optical_frame</ignition_frame_id>
 
-          <camera name="${tf_prefix_ext}camera">
+          <camera name="${prefix}camera">
             <horizontal_fov>${60.0/180.0*pi}</horizontal_fov>
             <image>
               <width>640</width>
@@ -110,19 +115,19 @@
         </sensor>
       </gazebo>
       <!-- <gazebo>
-        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-          <render_engine>ogre2</render_engine>
-        </plugin>
-      </gazebo>  -->
+                          <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+                            <render_engine>ogre2</render_engine>
+                          </plugin>
+                        </gazebo>  -->
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">
-      <gazebo reference="${tf_prefix_ext}orbbec_astra_link">
-        <sensor type="depth" name="${tf_prefix_ext}orbbec_astra_camera">
+      <gazebo reference="${prefix}orbbec_astra_link">
+        <sensor type="depth" name="${prefix}orbbec_astra_camera">
           <always_on>true</always_on>
           <update_rate>20.0</update_rate>
 
-          <camera name="${tf_prefix_ext}camera">
+          <camera name="${prefix}camera">
             <horizontal_fov>${60.0/180.0*pi}</horizontal_fov>
             <image>
               <format>R8G8B8</format>
@@ -131,7 +136,7 @@
             </image>
           </camera>
 
-          <plugin name="${tf_prefix_ext}orbbec_astra_camera" filename="libgazebo_ros_camera.so">
+          <plugin name="${prefix}orbbec_astra_camera" filename="libgazebo_ros_camera.so">
             <ros>
               <namespace>orbbec_astra_camera</namespace>
               <remapping>custom_camera/image_raw:=rgb/image_raw</remapping>
@@ -141,8 +146,8 @@
               <remapping>custom_camera/points:=depth/points</remapping>
             </ros>
 
-            <camera_name>${tf_prefix_ext}camera</camera_name>
-            <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
+            <name>${prefix}camera</name>
+            <frame_name>${prefix}${frame_id}</frame_name>
             <hack_baseline>0.07</hack_baseline>
 
             <min_depth>0.6</min_depth>
