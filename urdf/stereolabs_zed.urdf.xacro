@@ -24,7 +24,6 @@
             tf_prefix:=''
             name:=camera
             model:=zed
-            topic:=camera
             use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
