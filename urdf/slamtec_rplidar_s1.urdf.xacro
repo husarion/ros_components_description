@@ -1,5 +1,5 @@
-<?xml name="slamtec_rplidar_s1" version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<?xml version="1.0"?>
+<robot name="slamtec_rplidar_s1" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="slamtec_rplidar_s1"
     params="parent_link xyz rpy
             use_gpu:=false
