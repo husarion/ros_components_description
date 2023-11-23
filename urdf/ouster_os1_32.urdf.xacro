@@ -34,7 +34,7 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/ouster_os1_32.dae" />
+          <mesh filename="package://ros_components_description/meshes/ouster_os1_32.dae" />
         </geometry>
       </visual>
 

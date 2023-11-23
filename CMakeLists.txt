@@ -7,6 +7,6 @@ install(
   DIRECTORY meshes urdf
   DESTINATION share/${PROJECT_NAME}
 )
-
+ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/${PROJECT_NAME}.sh.in")
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 ament_package()
