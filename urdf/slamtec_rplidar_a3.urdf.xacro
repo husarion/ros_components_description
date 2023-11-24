@@ -3,7 +3,7 @@
   <xacro:macro name="slamtec_rplidar_a3"
     params="parent_link xyz rpy
             use_gpu:=false
-            tf_prefix:=''
+            tf_prefix:=None
             name:=slamtec_rplidar_a3
             topic:=scan
             frame_id:=laser
@@ -28,10 +28,10 @@
       </xacro:if>
     </xacro:unless>
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 

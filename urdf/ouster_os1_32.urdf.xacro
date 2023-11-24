@@ -3,7 +3,7 @@
   <xacro:macro name="ouster_os1_32"
     params="parent_link xyz rpy
             use_gpu:=false
-            tf_prefix:=''
+            tf_prefix:=None
             name:=ouster_os1_32
             topic:=os_lidar
             frame_id:=os_lidar
@@ -18,10 +18,10 @@
       <xacro:property name="plugin_file_name" value="libgazebo_ros_velodyne_laser.so" />
     </xacro:unless>
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
@@ -72,7 +72,7 @@
         <ray>
           <scan>
             <horizontal>
-              <samples>2048</samples>
+              <samples>1024</samples>
               <resolution>1</resolution>
               <min_angle>-${pi}</min_angle>
               <max_angle>${pi}</max_angle>

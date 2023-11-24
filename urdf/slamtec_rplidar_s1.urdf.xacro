@@ -3,7 +3,7 @@
   <xacro:macro name="slamtec_rplidar_s1"
     params="parent_link xyz rpy
             use_gpu:=false
-            tf_prefix:=''
+            tf_prefix:=None
             name:=slamtec_rplidar_s1
             topic:=scan
             frame_id:=laser
@@ -28,15 +28,14 @@
       </xacro:if>
     </xacro:unless>
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint"
-      type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
       <child link="${prefix}${name}_link" />
@@ -75,9 +74,7 @@
       </inertial>
     </link>
 
-    <joint
-      name="${prefix}${name}_to_${prefix}${frame_id.rstrip('_link')}_joint"
-      type="fixed">
+    <joint name="${prefix}${name}_to_${prefix}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.04" rpy="0.0 0.0 ${pi}" />
       <parent link="${prefix}${name}_link" />
       <child link="${prefix}${frame_id}" />
@@ -118,8 +115,7 @@
         </sensor>
       </gazebo>
       <gazebo>
-        <plugin filename="libignition-gazebo-sensors-system.so"
-          name="ignition::gazebo::systems::Sensors">
+        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
           <render_engine>ogre2</render_engine>
         </plugin>
       </gazebo>

@@ -2,15 +2,15 @@
 <robot name="orbbec_astra" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="orbbec_astra"
                params="parent_link xyz rpy
-                       tf_prefix:=''
+                       tf_prefix:=None
                        name:=camera
                        topic:=camera
                        simulation_engine:=ignition-gazebo">
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
@@ -61,8 +61,7 @@
 
     <link name="${prefix}${name}_depth_frame" />
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_depth_joint"
-      type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_depth_joint" type="fixed">
       <origin xyz="0.0 0.0 0.03325" rpy="0.0 0.0 0.0" />
       <parent link="${parent_link}" />
       <child link="${prefix}${name}_depth_frame" />
@@ -78,9 +77,7 @@
 
     <link name="${prefix}${name}_depth_optical_frame" />
 
-    <joint
-      name="${prefix}${name}_depth_to_${prefix}${name}_depth_optical_joint"
-      type="fixed">
+    <joint name="${prefix}${name}_depth_to_${prefix}${name}_depth_optical_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
       <parent link="${prefix}${name}_depth_frame" />
       <child link="${prefix}${name}_depth_optical_frame" />

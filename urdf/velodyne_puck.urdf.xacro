@@ -3,7 +3,7 @@
   <xacro:macro name="velodyne_puck"
     params="parent_link xyz rpy
             use_gpu:=false
-            tf_prefix:=''
+            tf_prefix:=None
             name:=velodyne_puck
             topic:=scan
             frame_id:=velodyne
@@ -18,10 +18,10 @@
       <xacro:property name="plugin_file_name" value="libgazebo_ros_velodyne_laser.so" />
     </xacro:unless>
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 

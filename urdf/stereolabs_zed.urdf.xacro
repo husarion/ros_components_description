@@ -21,16 +21,16 @@
 
   <xacro:macro name="zed_camera"
     params="parent_link xyz rpy
-            tf_prefix:=''
+            tf_prefix:=None
             name:=camera
             topic:=zed
             model:=zed
             simulation_engine:=ignition-gazebo">
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
@@ -181,8 +181,8 @@
       <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth
       camera
         should be more accurate different frames and fovs can be set -->
-        <gazebo reference="${prefix}${name}_center_optical_frame">
-          <sensor type="rgbd" name="${prefix}${name}_color">
+      <gazebo reference="${prefix}${name}_center_optical_frame">
+        <sensor type="rgbd" name="${prefix}${name}_color">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 

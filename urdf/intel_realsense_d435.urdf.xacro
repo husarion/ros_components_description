@@ -20,16 +20,16 @@
 <robot name="intel_realsense_d435" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:macro name="intel_realsense_d435"
     params="parent_link xyz rpy
-            tf_prefix:=''
+            tf_prefix:=None
             name:=camera
             topic:=camera
             use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
-    <xacro:if value="${tf_prefix == ''}">
+    <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
     </xacro:if>
-    <xacro:unless value="${tf_prefix == ''}">
+    <xacro:unless value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
