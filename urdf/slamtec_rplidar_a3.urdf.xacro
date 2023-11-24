@@ -76,7 +76,7 @@
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <gazebo reference="${prefix}${frame_id}">
-        <sensor type="${ray_type}" name="${prefix}rplidar_a3_sensor">
+        <sensor type="${ray_type}" name="${prefix}${name}_sensor">
 
           <topic>${topic}</topic>
           <frame_id>${prefix}${frame_id}</frame_id>
