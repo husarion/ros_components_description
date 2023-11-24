@@ -18,10 +18,12 @@
       <xacro:property name="plugin_file_name" value="libgazebo_ros_velodyne_laser.so" />
     </xacro:unless>
 
-    <xacro:property name="prefix" value="${tf_prefix}" lazy_eval="false" />
-    <xacro:if value="${prefix != ''}">
-      <xacro:property name="prefix" value="${tf_prefix}_" />
+    <xacro:if value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="" />
     </xacro:if>
+    <xacro:unless value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="${tf_prefix}_" />
+    </xacro:unless>
 
     <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />

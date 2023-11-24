@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <robot name="orbbec_astra" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="orbbec_astra"
-    params="parent_link xyz rpy
-            tf_prefix:=''
-            name:=camera
-            simulation_engine:=ignition-gazebo">
+               params="parent_link xyz rpy
+                       tf_prefix:=''
+                       name:=camera
+                       simulation_engine:=ignition-gazebo">
 
-    <xacro:property name="prefix" value="${tf_prefix}" lazy_eval="false" />
-    <xacro:if value="${prefix != ''}">
-      <xacro:property name="prefix" value="${tf_prefix}_" />
+    <xacro:if value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="" />
     </xacro:if>
+    <xacro:unless value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="${tf_prefix}_" />
+    </xacro:unless>
 
-    <joint
-      name="${parent_link.rstrip('_link')}_to_${prefix}${name}_orbbec_astra_joint"
-      type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_orbbec_astra_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
       <child link="${prefix}${name}_orbbec_astra_link" />
@@ -46,14 +46,13 @@
       <inertial>
         <origin xyz="0.0 0.0 ${0.019+0.01}" rpy="0.0 0.0 0.0" />
         <mass value="0.300" />
-        <inertia ixx="0.00073916" ixy="0.0" ixz="0.0"
-          iyy="0.00015435" iyz="0.0"
-          izz="0.00077395" />
+        <inertia ixx="0.00073916" ixy="0.0"        ixz="0.0"
+                                  iyy="0.00015435" iyz="0.0"
+                                                   izz="0.00077395" />
       </inertial>
     </link>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_color_joint"
-      type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_color_joint" type="fixed">
       <origin xyz="-0.002 0.0125 0.03325" rpy="-0.003 0.0 -0.003" />
       <parent link="${parent_link}" />
       <child link="${prefix}${name}_color_frame" />
@@ -70,9 +69,7 @@
 
     <link name="${prefix}${name}_color_frame" />
 
-    <joint
-      name="${prefix}${name}_color_to_${prefix}${name}_color_optical_joint"
-      type="fixed">
+    <joint name="${prefix}${name}_color_to_${prefix}${name}_color_optical_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0.0 ${-pi/2}" />
       <parent link="${prefix}${name}_color_frame" />
       <child link="${prefix}${name}_color_optical_frame" />
@@ -98,7 +95,7 @@
 
           <topic>${name}</topic>
           <!-- It is not possible to split the frame of the color and the depth stream.
-                                 The frame of color stream should be ${prefix}${name}_color_optical_frame -->
+               The frame of color stream should be ${prefix}${name}_color_optical_frame -->
           <ignition_frame_id>${prefix}${name}_depth_optical_frame</ignition_frame_id>
 
           <camera name="${prefix}camera">
@@ -116,10 +113,10 @@
         </sensor>
       </gazebo>
       <!-- <gazebo>
-                          <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-                            <render_engine>ogre2</render_engine>
-                          </plugin>
-                        </gazebo>  -->
+        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+          <render_engine>ogre2</render_engine>
+        </plugin>
+      </gazebo>  -->
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">

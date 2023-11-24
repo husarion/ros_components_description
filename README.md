@@ -45,6 +45,7 @@ A list of parameters can be found here:
 - `xyz` [*float list*, default: **None**] 3 float values defining translation between base of a sensor and parent link. Values in **m**.
 - `rpy` [*float list*, default: **None**] 3 float values define rotation between parent link and base of a sensor. Values in **rad**.
 - `tf_prefix` [*string*, optional] tf prefix applied before all links created by sensor. If defined, applies `<tf_prefix>_<sensor_name>`. If not defined, leaves `<sensor_name>` intact. Applies also to `frame_id` parameter.
+- `name` [*string*, default: **same as default of manufacturer**] the name that appears in frames.
 - `topic` [*string*, default: **same as default of manufacturer**] name of topic at which simulated sensor will publish data.
 - `frame_id` [*string*, default: **same as default of manufacturer**] name of final tf to which sensor will be attached. Should match one from message published by sensor.
 - `use_gpu` [*bool*, default: **false**] enable GPU acceleration for sensor. Available only if sensor can be accelerated.

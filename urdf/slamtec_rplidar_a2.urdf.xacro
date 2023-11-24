@@ -34,13 +34,14 @@
       </xacro:if>
     </xacro:unless>
 
-    <xacro:property name="prefix" value="${tf_prefix}" lazy_eval="false" />
-    <xacro:if value="${prefix != ''}">
-      <xacro:property name="prefix" value="${tf_prefix}_" />
+    <xacro:if value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="" />
     </xacro:if>
+    <xacro:unless value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="${tf_prefix}_" />
+    </xacro:unless>
 
-    <!--values
-    of max distance are based on tradeoff values between best and worst case scenarios -->
+    <!--values of max distance are based on tradeoff values between best and worst case scenarios -->
     <!-- slamtec_rplidar_ax.dae is used as a shared mesh for A2 and A3 rplidars -->
     <xacro:if value="${model == 'A2M7'}">
       <xacro:property name="samples" value="1600" />
@@ -60,8 +61,7 @@
       <xacro:property name="mesh" value="slamtec_rplidar_ax.dae" />
     </xacro:if>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint"
-      type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
       <child link="${prefix}${name}_link" />
@@ -91,9 +91,7 @@
       </inertial>
     </link>
 
-    <joint
-      name="${prefix}${name}_to_${prefix}${frame_id.rstrip('_link')}_joint"
-      type="fixed">
+    <joint name="${prefix}${name}_to_${prefix}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.031" rpy="0.0 0.0 ${pi}" />
       <parent link="${prefix}${name}_link" />
       <child link="${prefix}${frame_id}" />
@@ -135,8 +133,7 @@
         </sensor>
       </gazebo>
       <gazebo>
-        <plugin filename="libignition-gazebo-sensors-system.so"
-          name="ignition::gazebo::systems::Sensors">
+        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
           <render_engine>ogre2</render_engine>
         </plugin>
       </gazebo>

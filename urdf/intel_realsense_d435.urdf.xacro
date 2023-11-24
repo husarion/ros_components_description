@@ -26,10 +26,12 @@
             use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
-    <xacro:property name="prefix" value="${tf_prefix}" lazy_eval="false" />
-    <xacro:if value="${prefix != ''}">
-      <xacro:property name="prefix" value="${tf_prefix}_" />
+    <xacro:if value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="" />
     </xacro:if>
+    <xacro:unless value="${tf_prefix == ''}">
+      <xacro:property name="prefix" value="${tf_prefix}_" />
+    </xacro:unless>
 
 
     <!-- The following values are approximate, and the camera node
