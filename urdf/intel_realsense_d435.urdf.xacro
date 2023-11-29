@@ -33,7 +33,6 @@
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
-
     <!-- The following values are approximate, and the camera node
       publishing TF values with actual calibrated camera extrinsic values -->
     <xacro:property name="d435_cam_depth_to_infra1_offset" value="0.0" />
@@ -179,8 +178,7 @@
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-      <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth
-      camera
+      <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth camera
         should be more accurate for D435 - different frames and fovs can be set -->
       <gazebo reference="${prefix}${name}_color_frame">
         <sensor type="camera" name="${prefix}${name}_color">

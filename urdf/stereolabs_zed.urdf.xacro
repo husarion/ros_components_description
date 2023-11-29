@@ -22,7 +22,7 @@
   <xacro:macro name="zed_camera"
     params="parent_link xyz rpy
             tf_prefix:=None
-            name:=camera
+            name:=zed
             topic:=zed
             model:=zed
             simulation_engine:=ignition-gazebo">
