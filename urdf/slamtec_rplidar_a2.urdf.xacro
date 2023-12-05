@@ -71,7 +71,7 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
-          <mesh filename="file://$(find ros_components_description)/meshes/${mesh}" />
+          <mesh filename="package://ros_components_description/meshes/${mesh}" />
         </geometry>
       </visual>
 
@@ -159,7 +159,7 @@
             <noise>
               <type>gaussian</type>
               <mean>0.0</mean>
-              <stddev>0.001</stddev>
+              <stddev>0.03</stddev>
             </noise>
           </ray>
 
