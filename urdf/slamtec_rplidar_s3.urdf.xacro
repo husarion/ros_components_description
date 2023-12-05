@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="slamtec_rplidar_s3"
-               params="parent_link xyz rpy
-                       use_gpu:=false
-                       tf_prefix:=None
-                       topic:=scan
-                       frame_id:=laser
-                       simulation_engine:=gazebo-classic">
+    params="parent_link xyz rpy
+            use_gpu:=false
+            tf_prefix:=None
+            name:=slamtec_rplidar_s3
+            topic:=scan
+            frame_id:=laser
+            simulation_engine:=ignition-gazebo">
 
     <xacro:if value="${use_gpu}">
       <xacro:if value="${simulation_engine == 'gazebo-classic'}">
@@ -34,13 +35,13 @@
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}slamtec_rplidar_s3_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${prefix}slamtec_rplidar_s3_link" />
+      <child link="${prefix}${name}_link" />
     </joint>
 
-    <link name="${prefix}slamtec_rplidar_s3_link">
+    <link name="${prefix}${name}_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
@@ -65,9 +66,9 @@
       </inertial>
     </link>
 
-    <joint name="${prefix}slamtec_rplidar_s3_to_${prefix}${frame_id.rstrip('_link')}_joint" type="fixed">
+    <joint name="${prefix}${name}_to_${prefix}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.0305" rpy="0.0 0.0 ${pi}" />
-      <parent link="${prefix}slamtec_rplidar_s3_link" />
+      <parent link="${prefix}${name}_link" />
       <child link="${prefix}${frame_id}" />
     </joint>
 
@@ -115,7 +116,7 @@
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">
       <gazebo reference="${prefix}${frame_id}">
-        <sensor type="${ray_type}" name="${prefix}slamtec_rplidar_s3_sensor">
+        <sensor type="${ray_type}" name="${prefix}${name}_sensor">
           <visualize>false</visualize>
           <ray>
             <scan>

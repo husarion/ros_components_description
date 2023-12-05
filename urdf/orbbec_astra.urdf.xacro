@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot name="orbbec_astra" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="orbbec_astra"
-               params="parent_link xyz rpy
-                       tf_prefix:=None
-                       name:=camera
-                       topic:=camera
-                       simulation_engine:=ignition-gazebo">
+    params="parent_link xyz rpy
+            tf_prefix:=None
+            name:=camera
+            topic:=camera
+            simulation_engine:=ignition-gazebo">
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
