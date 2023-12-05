@@ -22,7 +22,8 @@
     params="parent_link xyz rpy
             tf_prefix:=None
             name:=camera
-            topic:=camera
+            topic_rgb_camera:=camera/color/image_raw
+            topic_depth_camera:=camera/depth
             use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
@@ -185,7 +186,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/color/image_raw</topic>
+          <topic>${topic_rgb_camera}</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_color_optical_frame</ignition_frame_id>
@@ -205,7 +206,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/depth</topic>
+          <topic>${topic_depth_camera}</topic>
           <visualize>false</visualize>
 
           <!-- Depth cannot be optical becaues it roatate output -->

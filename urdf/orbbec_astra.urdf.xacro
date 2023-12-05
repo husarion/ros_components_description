@@ -14,13 +14,13 @@
       <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_orbbec_astra_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}${name}_visualization_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${prefix}${name}_orbbec_astra_link" />
+      <child link="${prefix}${name}_visualization_link" />
     </joint>
 
-    <link name="${prefix}${name}_orbbec_astra_link">
+    <link name="${prefix}${name}_visualization_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>

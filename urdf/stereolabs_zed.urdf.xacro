@@ -23,8 +23,8 @@
     params="parent_link xyz rpy
             tf_prefix:=None
             name:=zed
-            topic:=zed
-            model:=zed
+            topic_rgb_camera:=zed/zed_node/rgb/image_rect_color
+            topic_depth_camera:=zed/zed_node/depth            model:=zed
             simulation_engine:=ignition-gazebo">
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -186,7 +186,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/zed_node/rgb/image_rect_color</topic>
+          <topic>${topic_rgb_camera}</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_left_camera_optical_frame</ignition_frame_id>
@@ -208,7 +208,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/zed_node/depth</topic>
+          <topic>${topic_depth_camera}</topic>
           <visualize>false</visualize>
 
           <!-- Depth cannot be optical becaues it roatate output Point Cloud -->
