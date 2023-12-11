@@ -22,8 +22,7 @@
     params="parent_link xyz rpy
             tf_prefix:=None
             name:=camera
-            topic_rgb_camera:=camera/color/image_raw
-            topic_depth_camera:=camera/depth
+            topic_ns:=camera
             use_nominal_extrinsics:=false
             simulation_engine:=ignition-gazebo">
 
@@ -83,7 +82,7 @@
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
-          <mesh filename="package://ros_components_description/meshes/intel_realsense_d435.dae" />
+          <mesh filename="file://$(find ros_components_description)/meshes/intel_realsense_d435.dae" />
         </geometry>
       </visual>
       <collision>
@@ -186,7 +185,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic_rgb_camera}</topic>
+          <topic>${topic_ns}/color/image_raw</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_color_optical_frame</ignition_frame_id>
@@ -206,7 +205,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic_depth_camera}</topic>
+          <topic>${topic_ns}/depth</topic>
           <visualize>false</visualize>
 
           <!-- Depth cannot be optical becaues it roatate output -->

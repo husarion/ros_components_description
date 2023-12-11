@@ -5,7 +5,7 @@
             use_gpu:=false
             tf_prefix:=None
             name:=velodyne_puck
-            topic:=scan
+            topic_ns:=scan
             frame_id:=velodyne
             simulation_engine:=ignition-gazebo">
 
@@ -97,7 +97,7 @@
         </ray>
 
         <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-          <topic>${topic}</topic>
+          <topic>${topic_ns}</topic>
           <frame_id>${prefix}${frame_id}</frame_id>
           <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
           <always_on>true</always_on>
@@ -112,7 +112,7 @@
             filename="libgazebo_ros_ray_sensor.so">
             <ros>
               <namespace></namespace>
-              <remapping>~/out:=${topic}</remapping>
+              <remapping>~/out:=${topic_ns}</remapping>
             </ros>
             <output_type>sensor_msgs/PointCloud2</output_type>
             <frame_name>${prefix}${frame_id}</frame_name>

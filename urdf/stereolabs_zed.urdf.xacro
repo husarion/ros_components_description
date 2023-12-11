@@ -23,8 +23,8 @@
     params="parent_link xyz rpy
             tf_prefix:=None
             name:=zed
-            topic_rgb_camera:=zed/zed_node/rgb/image_rect_color
-            topic_depth_camera:=zed/zed_node/depth            model:=zed
+            topic_ns:=zed
+            model:=zed
             simulation_engine:=ignition-gazebo">
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -96,7 +96,7 @@
       <visual>
         <origin xyz="${screw_offset_x} 0 ${screw_offset_z}" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://ros_components_description/meshes/${model}.stl" />
+          <mesh filename="file://$(find ros_components_description)/meshes/${model}.stl" />
         </geometry>
         <material name="mat">
           <color rgba="0.25 0.25 0.25 0.99" />
@@ -104,7 +104,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://ros_components_description/meshes/${model}.stl" />
+          <mesh filename="file://$(find ros_components_description)/meshes/${model}.stl" />
         </geometry>
       </collision>
     </link>
@@ -186,7 +186,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic_rgb_camera}</topic>
+          <topic>${topic_ns_ns}/zed_node/rgb/image_rect_color</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_left_camera_optical_frame</ignition_frame_id>
@@ -208,7 +208,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic_depth_camera}</topic>
+          <topic>${topic_ns_ns}/zed_node/depth</topic>
           <visualize>false</visualize>
 
           <!-- Depth cannot be optical becaues it roatate output Point Cloud -->

@@ -4,7 +4,7 @@
     params="parent_link xyz rpy
             tf_prefix:=None
             name:=camera
-            topic:=camera
+            topic_ns:=camera
             simulation_engine:=ignition-gazebo">
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -91,7 +91,7 @@
           <always_on>true</always_on>
           <update_rate>20.0</update_rate>
 
-          <topic>${topic}</topic>
+          <topic>${topic_ns}</topic>
           <!-- It is not possible to split the frame of the color and the depth stream.
                The frame of color stream should be ${prefix}${name}_color_optical_frame, but adding optical rotate pointcloud -->
           <ignition_frame_id>${prefix}${name}_depth_frame</ignition_frame_id>

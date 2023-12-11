@@ -46,8 +46,9 @@ A list of parameters can be found here:
 - `parent_link` [*string*, default: **None**] parent link to which sensor should be attached.
 - `xyz` [*float list*, default: **None**] 3 float values defining translation between base of a sensor and parent link. Values in **m**.
 - `rpy` [*float list*, default: **None**] 3 float values define rotation between parent link and base of a sensor. Values in **rad**.
+- `name` [*string*, default: **same as default of manufacturer**] name that appears in frame names.
 - `tf_prefix` [*string*, optional] tf prefix applied before all links created by sensor. If defined, applies `<tf_prefix>_<name>`. If not defined, leaves `<name>` intact. Applies also to `frame_id` parameter.
-- `topic` [*string*, default: **same as manufacturer's default**] name of topic at which simulated sensor will publish data.
+- `topic_ns` [*string*, default: **None**] name before of topic at which simulated sensor will publish data. Topic name is **same as manufacturer's default**, so output will be `/<topic_ns>/default_topic`. If not defined, leaves `/default_topic` intact.
 - `frame_id` [*string*, default: **same as manufacturer's default**] name of final tf to which sensor will be attached. Should match one from message published by sensor.
 - `use_gpu` [*bool*, default: **false**] enable GPU acceleration for sensor. Available only if sensor can be accelerated.
 - `simulation_engine` [*string*, default: **gazebo-classic**] selected for which simulation engine plugins should be loaded. Currently the only supported:

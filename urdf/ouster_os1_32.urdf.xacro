@@ -5,7 +5,7 @@
             use_gpu:=false
             tf_prefix:=None
             name:=ouster_os1_32
-            topic:=os_lidar
+            topic_ns:=os_lidar
             frame_id:=os_lidar
             simulation_engine:=ignition-gazebo">
 
@@ -98,7 +98,7 @@
         </ray>
 
         <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-          <topic>${topic}</topic>
+          <topic>${topic_ns}</topic>
           <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
           <always_on>true</always_on>
           <plugin filename="libignition-gazebo-sensors-system.so"
@@ -111,7 +111,7 @@
           <plugin name="${prefix}${name}_${ray_type}" filename="libgazebo_ros_ray_sensor.so">
             <ros>
               <namespace></namespace>
-              <remapping>~/out:=${topic}</remapping>
+              <remapping>~/out:=${topic_ns}</remapping>
             </ros>
             <output_type>sensor_msgs/PointCloud2</output_type>
             <frame_name>${prefix}${frame_id}</frame_name>

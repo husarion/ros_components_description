@@ -5,7 +5,7 @@
             use_gpu:=false
             tf_prefix:=None
             name:=slamtec_rplidar_a3
-            topic:=scan
+            topic_ns:=scan
             frame_id:=laser
             simulation_engine:=ignition-gazebo">
 
@@ -78,7 +78,7 @@
       <gazebo reference="${prefix}${frame_id}">
         <sensor type="${ray_type}" name="${prefix}${name}_sensor">
 
-          <topic>${topic}</topic>
+          <topic>${topic_ns}</topic>
           <frame_id>${prefix}${frame_id}</frame_id>
           <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
 
@@ -146,7 +146,7 @@
           <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
             <ros>
               <namespace></namespace>
-              <remapping>~/out:=${topic}</remapping>
+              <remapping>~/out:=${topic_ns}</remapping>
             </ros>
             <output_type>sensor_msgs/LaserScan</output_type>
             <frame_name>${prefix}${frame_id}</frame_name>
