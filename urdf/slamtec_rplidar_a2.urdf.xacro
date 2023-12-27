@@ -12,7 +12,15 @@
                        topic:=scan
                        frame_id:=laser
                        model:=A2M12
+                       namespace:=None
                        simulation_engine:=gazebo-classic">
+
+    <xacro:if value="${namespace == 'None'}">
+      <xacro:property name="namespace_ext" value="" />
+    </xacro:if>
+    <xacro:unless value="${namespace == 'None'}">
+        <xacro:property name="namespace_ext" value="${namespace}/" />
+    </xacro:unless>
 
     <xacro:if value="${use_gpu}">
       <xacro:if value="${simulation_engine == 'gazebo-classic'}">
@@ -100,9 +108,9 @@
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <gazebo reference="${tf_prefix_ext}${frame_id}">
-        <sensor type="${ray_type}" name="${tf_prefix_ext}rplidar_a2_sensor">
+        <sensor type="${ray_type}" name="${namespace_ext}${tf_prefix_ext}rplidar_a2_sensor">
 
-          <topic>${topic}</topic>
+          <topic>${namespace_ext}scan</topic>
           <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
           <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
 
@@ -129,13 +137,11 @@
           </ray>
           <always_on>true</always_on>
           <visualize>false</visualize>
+          <ros>
+            <namespace>${namespace_ext}</namespace>
+          </ros>
         </sensor>
       </gazebo>
-      <gazebo>
-          <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-            <render_engine>ogre2</render_engine>
-          </plugin>
-        </gazebo>
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">
