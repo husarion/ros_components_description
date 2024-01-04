@@ -1,10 +1,8 @@
 name: ROS2 test build
 
 on:
-  push:
-    branches:
-      - 'ros2'
-  
+  - push
+
 jobs:
   colcon-test-build-ubuntu-20-04:
     strategy:
@@ -18,14 +16,14 @@ jobs:
 
     name: ${{ matrix.ros-distro }}
     steps:
-      - uses: ros-tooling/setup-ros@v0.3
+      - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: ${{ matrix.ros-distro }}
       - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: ros_components_description
           target-ros2-distro: ${{ matrix.ros-distro }}
-  
+
   colcon-test-build-ubuntu-22-04:
     strategy:
       matrix:
@@ -39,7 +37,7 @@ jobs:
 
     name: ${{ matrix.ros-distro }}
     steps:
-      - uses: ros-tooling/setup-ros@v0.3
+      - uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: ${{ matrix.ros-distro }}
       - uses: ros-tooling/action-ros-ci@v0.2
