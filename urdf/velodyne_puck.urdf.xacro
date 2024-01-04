@@ -18,19 +18,19 @@
     </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
-      <xacro:property name="prefix" value="" />
+      <xacro:property name="tf_prefix_ext" value="" />
     </xacro:if>
     <xacro:unless value="${tf_prefix == 'None'}">
-      <xacro:property name="prefix" value="${tf_prefix}_" />
+      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${prefix}velodyne_puck_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}velodyne_puck_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${prefix}velodyne_puck_link" />
+      <child link="${tf_prefix_ext}velodyne_puck_link" />
     </joint>
 
-    <link name="${prefix}velodyne_puck_link">
+    <link name="${tf_prefix_ext}velodyne_puck_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
@@ -54,17 +54,17 @@
       </inertial>
     </link>
 
-    <joint name="${prefix}velodyne_puck_to_${prefix}${frame_id.rstrip('_link')}_joint"
+    <joint name="${tf_prefix_ext}velodyne_puck_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint"
       type="fixed">
       <origin xyz="0.0 0.0 0.0378" rpy="0.0 0.0 0.0" />
-      <parent link="${prefix}velodyne_puck_link" />
-      <child link="${prefix}${frame_id}" />
+      <parent link="${tf_prefix_ext}velodyne_puck_link" />
+      <child link="${tf_prefix_ext}${frame_id}" />
     </joint>
 
-    <link name="${prefix}${frame_id}" />
+    <link name="${tf_prefix_ext}${frame_id}" />
 
-    <gazebo reference="${prefix}${frame_id}">
-      <sensor type="${ray_type}" name="${prefix}velodyne_puck_sensor">
+    <gazebo reference="${tf_prefix_ext}${frame_id}">
+      <sensor type="${ray_type}" name="${tf_prefix_ext}velodyne_puck_sensor">
         <visualize>false</visualize>
         <update_rate>10.0</update_rate>
 
@@ -97,8 +97,8 @@
 
         <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
           <topic>${topic}</topic>
-          <frame_id>${prefix}${frame_id}</frame_id>
-          <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
+          <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
+          <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
           <always_on>true</always_on>
           <plugin filename="libignition-gazebo-sensors-system.so"
             name="ignition::gazebo::systems::Sensors">
@@ -107,14 +107,14 @@
         </xacro:if>
 
         <xacro:if value="${simulation_engine == 'gazebo-classic'}">
-          <plugin name="${prefix}velodyne_puck_${ray_type}"
+          <plugin name="${tf_prefix_ext}velodyne_puck_${ray_type}"
             filename="libgazebo_ros_ray_sensor.so">
             <ros>
               <namespace></namespace>
               <remapping>~/out:=${topic}</remapping>
             </ros>
             <output_type>sensor_msgs/PointCloud2</output_type>
-            <frame_name>${prefix}${frame_id}</frame_name>
+            <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
           </plugin>
         </xacro:if>
 
