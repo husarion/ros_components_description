@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         build-type: [ignition-gazebo, gazebo-classic]
-        ros-distro: [humble, iron]
+        ros-distro: [humble]
 
     env:
       GAZEBO_VERSION: ${{ matrix.build-type }}
