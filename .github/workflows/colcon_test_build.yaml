@@ -4,33 +4,23 @@ on:
   - push
 
 jobs:
-  test_docker: # On Linux, iterates on all ROS 2 distributions.
-    runs-on: ubuntu-latest
+  colcon-test-build-ubuntu-22-04:
     strategy:
       matrix:
-        include:
-          # Humble Hawksbill (May 2022 - May 2027)
-          - docker_image: ubuntu:jammy
-            ros_distribution: humble
+        build-type: [ignition-gazebo, gazebo-classic]
+        ros-distro: [humble, iron]
 
-          # Iron Irwini (May 2023 - November 2024)
-          - docker_image: ubuntu:jammy
-            ros_distribution: iron
+    env:
+      GAZEBO_VERSION: ${{ matrix.build-type }}
 
-          # Rolling Ridley (No End-Of-Life)
-          - docker_image: ubuntu:jammy
-            ros_distribution: rolling
+    runs-on: ubuntu-22.04
 
-    container:
-      image: ${{ matrix.docker_image }}
-
+    name: ${{ matrix.ros-distro }}
     steps:
-      - name: setup ROS environment
-        uses: ros-tooling/setup-ros@v0.7
+      - uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: ${{ matrix.ros_distribution }}
-      - name: build and test ROS 2
-        uses: ros-tooling/action-ros-ci@v0.2
+          required-ros-distributions: ${{ matrix.ros-distro }}
+      - uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: ros_components_description
-          target-ros2-distro: ${{ matrix.ros_distribution }}
+          target-ros2-distro: ${{ matrix.ros-distro }}
