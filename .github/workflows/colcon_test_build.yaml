@@ -4,43 +4,37 @@ on:
   - push
 
 jobs:
-  colcon-test-build-ubuntu-20-04:
+  test_docker: # On Linux, iterates on all ROS 2 distributions.
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-type: [ignition-gazebo, gazebo-classic]
-        ros-distro: [foxy, galactic]
-    env:
-      GAZEBO_VERSION: ${{ matrix.build-type }}
+        ros_distribution:
+          - humble
+          - iron
 
-    runs-on: ubuntu-20.04
+        include:
+          # Humble Hawksbill (May 2022 - May 2027)
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
 
-    name: ${{ matrix.ros-distro }}
+          # Iron Irwini (May 2023 - November 2024)
+          - docker_image: ubuntu:jammy
+            ros_distribution: iron
+
+          # Rolling Ridley (No End-Of-Life)
+          - docker_image: ubuntu:jammy
+            ros_distribution: rolling
+
+    container:
+      image: ${{ matrix.docker_image }}
+
     steps:
-      - uses: ros-tooling/setup-ros@v0.7
+      - name: setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: ${{ matrix.ros-distro }}
-      - uses: ros-tooling/action-ros-ci@v0.2
+          required-ros-distributions: ${{ matrix.ros_distribution }}
+      - name: build and test ROS 2
+        uses: ros-tooling/action-ros-ci@v0.2
         with:
           package-name: ros_components_description
-          target-ros2-distro: ${{ matrix.ros-distro }}
-
-  colcon-test-build-ubuntu-22-04:
-    strategy:
-      matrix:
-        build-type: [ignition-gazebo, gazebo-classic]
-        ros-distro: [humble]
-
-    env:
-      GAZEBO_VERSION: ${{ matrix.build-type }}
-
-    runs-on: ubuntu-22.04
-
-    name: ${{ matrix.ros-distro }}
-    steps:
-      - uses: ros-tooling/setup-ros@v0.7
-        with:
-          required-ros-distributions: ${{ matrix.ros-distro }}
-      - uses: ros-tooling/action-ros-ci@v0.2
-        with:
-          package-name: ros_components_description
-          target-ros2-distro: ${{ matrix.ros-distro }}
+          target-ros2-distro: ${{ matrix.ros_distribution }}
