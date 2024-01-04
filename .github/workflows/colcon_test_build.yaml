@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ros_distribution:
-          - humble
-          - iron
-
         include:
           # Humble Hawksbill (May 2022 - May 2027)
           - docker_image: ubuntu:jammy
