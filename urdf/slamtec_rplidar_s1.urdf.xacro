@@ -37,19 +37,19 @@
     </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
-      <xacro:property name="tf_prefix_ext" value="" />
+      <xacro:property name="prefix" value="" />
     </xacro:if>
     <xacro:unless value="${tf_prefix == 'None'}">
-      <xacro:property name="tf_prefix_ext" value="${tf_prefix}_" />
+      <xacro:property name="prefix" value="${tf_prefix}_" />
     </xacro:unless>
 
-    <joint name="${parent_link.rstrip('_link')}_to_${tf_prefix_ext}slamtec_rplidar_s1_joint" type="fixed">
+    <joint name="${parent_link.rstrip('_link')}_to_${prefix}slamtec_rplidar_s1_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
       <parent link="${parent_link}" />
-      <child link="${tf_prefix_ext}slamtec_rplidar_s1_link" />
+      <child link="${prefix}slamtec_rplidar_s1_link" />
     </joint>
 
-    <link name="${tf_prefix_ext}slamtec_rplidar_s1_link">
+    <link name="${prefix}slamtec_rplidar_s1_link">
       <visual>
         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         <geometry>
@@ -82,21 +82,21 @@
       </inertial>
     </link>
 
-    <joint name="${tf_prefix_ext}slamtec_rplidar_s1_to_${tf_prefix_ext}${frame_id.rstrip('_link')}_joint" type="fixed">
+    <joint name="${prefix}slamtec_rplidar_s1_to_${prefix}${frame_id.rstrip('_link')}_joint" type="fixed">
       <origin xyz="0.0 0.0 0.04" rpy="0.0 0.0 ${pi}" />
-      <parent link="${tf_prefix_ext}slamtec_rplidar_s1_link" />
-      <child link="${tf_prefix_ext}${frame_id}" />
+      <parent link="${prefix}slamtec_rplidar_s1_link" />
+      <child link="${prefix}${frame_id}" />
     </joint>
 
-    <link name="${tf_prefix_ext}${frame_id}" />
+    <link name="${prefix}${frame_id}" />
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
-      <gazebo reference="${tf_prefix_ext}${frame_id}">
-        <sensor type="${ray_type}" name="${namespace_ext}${tf_prefix_ext}rplidar_s1_sensor">
+      <gazebo reference="${prefix}${frame_id}">
+        <sensor type="${ray_type}" name="${namespace_ext}${prefix}rplidar_s1_sensor">
 
           <topic>${namespace_ext}${topic}</topic>
-          <frame_id>${tf_prefix_ext}${frame_id}</frame_id>
-          <ignition_frame_id>${tf_prefix_ext}${frame_id}</ignition_frame_id>
+          <frame_id>${prefix}${frame_id}</frame_id>
+          <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
 
           <update_rate>10.0</update_rate>
           <ray>
@@ -129,8 +129,8 @@
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">
-      <gazebo reference="${tf_prefix_ext}${frame_id}">
-        <sensor type="${ray_type}" name="${tf_prefix_ext}slamtec_rplidar_s1_sensor">
+      <gazebo reference="${prefix}${frame_id}">
+        <sensor type="${ray_type}" name="${prefix}slamtec_rplidar_s1_sensor">
           <visualize>false</visualize>
           <ray>
             <scan>
@@ -161,7 +161,7 @@
               <remapping>~/out:=${topic}</remapping>
             </ros>
             <output_type>sensor_msgs/LaserScan</output_type>
-            <frame_name>${tf_prefix_ext}${frame_id}</frame_name>
+            <frame_name>${prefix}${frame_id}</frame_name>
           </plugin>
         </sensor>
       </gazebo>
