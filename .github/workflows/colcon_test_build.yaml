@@ -4,25 +4,6 @@ on:
   - push
 
 jobs:
-  colcon-test-build-ubuntu-20-04:
-    strategy:
-      matrix:
-        build-type: [ignition-gazebo, gazebo-classic]
-        ros-distro: [foxy, galactic]
-    env:
-      GAZEBO_VERSION: ${{ matrix.build-type }}
-    runs-on: ubuntu-20.04
-
-    name: ${{ matrix.ros-distro }}
-    steps:
-      - uses: ros-tooling/setup-ros@v0.7
-        with:
-          required-ros-distributions: ${{ matrix.ros-distro }}
-      - uses: ros-tooling/action-ros-ci@v0.3
-        with:
-          package-name: ros_components_description
-          target-ros2-distro: ${{ matrix.ros-distro }}
-
   colcon-test-build-ubuntu-22-04:
     strategy:
       matrix:
