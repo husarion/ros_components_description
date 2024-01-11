@@ -11,10 +11,10 @@
 
 
     <xacro:if value="${namespace == 'None'}">
-      <xacro:property name="namespace_ext" value="" />
+      <xacro:property name="ns" value="" />
     </xacro:if>
     <xacro:unless value="${namespace == 'None'}">
-        <xacro:property name="namespace_ext" value="${namespace}/" />
+      <xacro:property name="ns" value="${namespace}/" />
     </xacro:unless>
 
     <xacro:if value="${use_gpu}">
@@ -92,9 +92,9 @@
 
     <xacro:if value="${simulation_engine == 'ignition-gazebo'}">
       <gazebo reference="${prefix}${frame_id}">
-        <sensor type="${ray_type}" name="${namespace_ext}${prefix}rplidar_s1_sensor">
+        <sensor type="${ray_type}" name="${ns}${prefix}rplidar_s1_sensor">
 
-          <topic>${namespace_ext}${topic}</topic>
+          <topic>${ns}${topic}</topic>
           <frame_id>${prefix}${frame_id}</frame_id>
           <ignition_frame_id>${prefix}${frame_id}</ignition_frame_id>
 
@@ -122,7 +122,7 @@
           <always_on>1</always_on>
           <visualize>false</visualize>
           <ros>
-            <namespace>${namespace_ext}</namespace>
+            <namespace>${ns}</namespace>
           </ros>
         </sensor>
       </gazebo>

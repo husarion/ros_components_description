@@ -7,11 +7,11 @@
                        namespace:=None
                        simulation_engine:=gazebo-classic">
 
-      <xacro:if value="${namespace == 'None'}">
-      <xacro:property name="namespace_ext" value="" />
+    <xacro:if value="${namespace == 'None'}">
+      <xacro:property name="ns" value="" />
     </xacro:if>
     <xacro:unless value="${namespace == 'None'}">
-        <xacro:property name="namespace_ext" value="${namespace}/" />
+      <xacro:property name="ns" value="${namespace}/" />
     </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
@@ -98,7 +98,7 @@
           <always_on>true</always_on>
           <update_rate>20.0</update_rate>
 
-          <topic>${namespace_ext}${camera_name}</topic>
+          <topic>${ns}${camera_name}</topic>
           <!-- It is not possible to split the frame of the color and the depth stream.
                The frame of color stream should be ${prefix}${camera_name}_color_optical_frame -->
           <ignition_frame_id>${prefix}${camera_name}_depth_optical_frame</ignition_frame_id>
@@ -116,7 +116,7 @@
             </clip>
           </camera>
           <ros>
-            <namespace>${namespace_ext}</namespace>
+            <namespace>${ns}</namespace>
           </ros>
         </sensor>
       </gazebo>
