@@ -4,7 +4,15 @@
                params="parent_link xyz rpy
                        tf_prefix:=None
                        camera_name:=camera
+                       namespace:=None
                        simulation_engine:=gazebo-classic">
+
+    <xacro:if value="${namespace == 'None'}">
+      <xacro:property name="ns" value="" />
+    </xacro:if>
+    <xacro:unless value="${namespace == 'None'}">
+      <xacro:property name="ns" value="${namespace}/" />
+    </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
@@ -90,7 +98,7 @@
           <always_on>true</always_on>
           <update_rate>20.0</update_rate>
 
-          <topic>${camera_name}</topic>
+          <topic>${ns}${camera_name}</topic>
           <!-- It is not possible to split the frame of the color and the depth stream.
                The frame of color stream should be ${prefix}${camera_name}_color_optical_frame -->
           <ignition_frame_id>${prefix}${camera_name}_depth_optical_frame</ignition_frame_id>
@@ -107,13 +115,11 @@
               <far>8.0</far>
             </clip>
           </camera>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
       </gazebo>
-      <!-- <gazebo>
-        <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
-          <render_engine>ogre2</render_engine>
-        </plugin>
-      </gazebo>  -->
     </xacro:if>
 
     <xacro:if value="${simulation_engine == 'gazebo-classic'}">
