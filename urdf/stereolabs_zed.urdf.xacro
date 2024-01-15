@@ -26,7 +26,15 @@
     name:=camera
     topic:=camera
     use_nominal_extrinsics:=false
+    namespace:=None
     simulation_engine:=ignition-gazebo">
+
+    <xacro:if value="${namespace == 'None'}">
+      <xacro:property name="ns" value="" />
+    </xacro:if>
+    <xacro:unless value="${namespace == 'None'}">
+      <xacro:property name="ns" value="${namespace}/" />
+    </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
@@ -183,11 +191,11 @@
       camera
         should be more accurate different frames and fovs can be set -->
       <gazebo reference="${prefix}${name}_center_optical_frame">
-        <sensor type="camera" name="${prefix}${name}_color">
+        <sensor type="camera" name="${ns}${prefix}${name}_stereolabs_zed_color">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${model}/zed_node/rgb/image_rect_color</topic>
+          <topic>${ns}${model}/zed_node/rgb/image_rect_color</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_center_optical_frame</ignition_frame_id>
@@ -203,13 +211,16 @@
               <far>300.0</far>
             </clip>
           </camera>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
 
-        <sensor type="depth_camera" name="${prefix}${name}_depth">
+        <sensor type="depth_camera" name="${ns}${prefix}${name}_stereolabs_zed_depth">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${model}/zed_node/depth</topic>
+          <topic>${ns}${model}/zed_node/depth</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_center_optical_frame</ignition_frame_id>
@@ -229,6 +240,9 @@
               <stddev>0.03</stddev>
             </noise>
           </camera>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
       </gazebo>
     </xacro:if>
