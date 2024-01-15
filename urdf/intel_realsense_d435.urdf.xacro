@@ -184,6 +184,7 @@
       <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth camera
         should be more accurate for D435 - different frames and fovs can be set -->
       <gazebo reference="${prefix}${name}_link">
+        <!-- https://github.com/IntelRealSense/realsense-ros#published-topics -->
         <sensor type="camera" name="$${namespace_ext}{prefix}${name}_color">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
@@ -211,7 +212,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${namespace_ext}${topic}/depth/image_raw</topic>
+          <topic>${namespace_ext}${topic}/depth/image_rect_raw</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_depth_optical_frame</ignition_frame_id>
