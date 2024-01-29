@@ -195,7 +195,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${ns}${model}/zed_node/rgb/image_rect_color</topic>
+          <topic>${ns}zed/zed_node/rgb/image_rect_color</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_center_optical_frame</ignition_frame_id>
@@ -220,7 +220,7 @@
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${ns}${model}/zed_node/depth</topic>
+          <topic>${ns}zed/zed_node/depth</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_center_optical_frame</ignition_frame_id>
