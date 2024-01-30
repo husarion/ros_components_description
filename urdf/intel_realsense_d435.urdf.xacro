@@ -24,7 +24,15 @@
             name:=camera
             topic:=camera
             use_nominal_extrinsics:=false
+            namespace:=None
             simulation_engine:=ignition-gazebo">
+
+    <xacro:if value="${namespace == 'None'}">
+      <xacro:property name="ns" value="" />
+    </xacro:if>
+    <xacro:unless value="${namespace == 'None'}">
+        <xacro:property name="ns" value="${namespace}/" />
+    </xacro:unless>
 
     <xacro:if value="${tf_prefix == 'None'}">
       <xacro:property name="prefix" value="" />
@@ -176,11 +184,12 @@
       <!-- It is also possible to use single rgbd_camera sensor, but using separate rgb and depth camera
         should be more accurate for D435 - different frames and fovs can be set -->
       <gazebo reference="${prefix}${name}_link">
-        <sensor type="camera" name="${prefix}${name}_color">
+        <!-- https://github.com/IntelRealSense/realsense-ros#published-topics -->
+        <sensor type="camera" name="${ns}{prefix}${name}_intel_realsense_d435_color">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/color/image_raw</topic>
+          <topic>${ns}${topic}/color/image_raw</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_color_optical_frame</ignition_frame_id>
@@ -194,13 +203,16 @@
             <near>0.02</near>
             <far>300.0</far>
           </clip>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
 
-        <sensor type="depth_camera" name="${prefix}${name}_depth">
+        <sensor type="depth_camera" name="${ns}${prefix}${name}_intel_realsense_d435_depth">
           <always_on>true</always_on>
           <update_rate>30.0</update_rate>
 
-          <topic>${topic}/depth</topic>
+          <topic>${ns}${topic}/depth/image_rect_raw</topic>
           <visualize>false</visualize>
 
           <ignition_frame_id>${prefix}${name}_depth_optical_frame</ignition_frame_id>
@@ -221,6 +233,9 @@
               <stddev>0.005</stddev>
             </noise>
           </camera>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
       </gazebo>
     </xacro:if>

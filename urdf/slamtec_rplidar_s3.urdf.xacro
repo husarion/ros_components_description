@@ -112,10 +112,10 @@
           </ray>
           <always_on>1</always_on>
           <visualize>false</visualize>
+          <ros>
+            <namespace>${ns}</namespace>
+          </ros>
         </sensor>
-        <ros>
-          <namespace>${ns}</namespace>
-        </ros>
       </gazebo>
     </xacro:if>
 
